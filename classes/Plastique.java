@@ -6,6 +6,6 @@ public abstract class Plastique extends Ressource {
 
     @Override
     public String toString(){
-        return "On trouve "+super.getQuantite()+" "+this.type;
+        return super.toString();
     }
 }
