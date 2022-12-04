@@ -4,4 +4,8 @@ public abstract class Plastique extends Ressource {
         super(type,quant);
     }
 
+    @Override
+    public String toString(){
+        return "On trouve "+super.getQuantite()+" "+this.type;
+    }
 }
