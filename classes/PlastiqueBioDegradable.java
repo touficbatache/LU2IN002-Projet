@@ -9,12 +9,9 @@ public class PlastiqueBioDegradable extends Plastique implements Ecologique {
         }
 
     public void decomposition(Terrain t){
-        for(int i=0;i<t.nbLignes;i++){
-            for(int j=0;j<t.nbColonnes;j++)
-            if( t.getCase(i, j) instanceof PlastiqueBioDegradable){
-                if(temps>=1){
-                    t.videCase(i, j);
-                }
+        if( t.getCase(super.getX(), super.getY()) instanceof PlastiqueBioDegradable){
+            if(temps>=1){
+                t.videCase(super.getX(), super.getY());
             }
         }
         decompose=true;
@@ -26,11 +23,11 @@ public class PlastiqueBioDegradable extends Plastique implements Ecologique {
 
     @Override
     public String toString(){
-        String s=super.toString()+" Plastique Biodegradable";
+        String s=super.toString();
         if(decompose){
-            s+=" decomposes";
+            s+=" Le Plastique s'est decompose";
         }else{
-            s+=".Besoin plus de temps pour la decomposition";
+            s+="Besoin plus de temps pour la decomposition";
         }
         return s;
     }
