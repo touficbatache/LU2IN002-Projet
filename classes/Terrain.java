@@ -8,28 +8,26 @@ public final class Terrain {
     private Ressource[][] terrain;
     
     public Terrain() {
-        this(20, 20);
+        this(NBLIGNESMAX, NBCOLONNESMAX);
     }
     
     public Terrain(final int nblig, final int nbcol) {
-        if (nblig > 20) {
-            this.nbLignes = 20;
-        }
-        else if (nblig <= 0) {
+        if (nblig > NBLIGNESMAX) {
+            this.nbLignes = NBLIGNESMAX;
+        } else if (nblig <= 0) {
             this.nbLignes = 1;
-        }
-        else {
+        } else {
             this.nbLignes = nblig;
         }
-        if (nbcol > 20) {
-            this.nbColonnes = 20;
-        }
-        else if (nbcol <= 0) {
+
+        if (nbcol > NBCOLONNESMAX) {
+            this.nbColonnes = NBCOLONNESMAX;
+        } else if (nbcol <= 0) {
             this.nbColonnes = 1;
-        }
-        else {
+        } else {
             this.nbColonnes = nbcol;
         }
+
         this.terrain = new Ressource[this.nbLignes][this.nbColonnes];
     }
     
