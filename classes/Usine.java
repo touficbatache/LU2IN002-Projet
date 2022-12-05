@@ -8,7 +8,6 @@
  */
 
 public class Usine {
-    // private static final
     private int qtePetrole;
 
     public Usine() {
@@ -20,6 +19,8 @@ public class Usine {
     }
 
     public PlastiquePolluant produirePlastique() {
-        return new PlastiquePolluant((int) (qtePetrole / 100.0));
+        int qte = qtePetrole;
+        qtePetrole = 0;
+        return new PlastiquePolluant((int) (qte / 100.0));
     }
 }
