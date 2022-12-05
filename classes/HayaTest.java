@@ -47,7 +47,7 @@ public class HayaTest {
 
         t.affiche(3);
 
-        PlastiqueLifeCycle tab = new PlastiqueLifeCycle(20);
+        Usine tab = new Usine(20);
         tab.ajouterLifeCycle(t);
         System.out.println("La liste des "+tab.qteP()+" plastiques présents sur le terrain : \n");
         tab.afficheListe();
