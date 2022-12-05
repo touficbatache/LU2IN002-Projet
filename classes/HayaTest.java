@@ -2,6 +2,25 @@ public class HayaTest {
     public static void main(String[] args) {
         Terrain t = new Terrain();
 
+        // private int qtetDecomp = 0;//!!FOR SIMULATION
+
+        // public ArrayList<PlastiqueBioDegradable> allDecomposition(Terrain t) {
+        //     ArrayList<PlastiqueBioDegradable> res = new ArrayList<PlastiqueBioDegradable>();
+        //     for (Plastique p : this.liste_P) {
+        //         if (p instanceof PlastiqueBioDegradable) {
+        //             ((PlastiqueBioDegradable) p).decomposition(t);
+        //             System.out.println(p.toString());
+        //             qtetDecomp++;
+        //             res.add((PlastiqueBioDegradable) p);
+        //         }
+        //     }
+        //     return res;
+        // }
+    
+        // public int getQteDecomp() {
+        //     return qtetDecomp;
+        // }
+
         PlastiquePolluant pp1 = new PlastiquePolluant(1);
         PlastiquePolluant pp2 = new PlastiquePolluant(1);
         PlastiquePolluant pp3 = new PlastiquePolluant(1);
@@ -59,9 +78,9 @@ public class HayaTest {
         t.affiche(3);
 
         tab.allAugmenteAge();
-        tab.allDecomposition(t);
-        System.out.println("\n");
-        System.out.println("Terrain apres la decomposition des "+ tab.getQteDecomp()+" plastiques biodegradables : \n");
-        t.affiche(3);
+        //tab.allDecomposition(t);
+        //System.out.println("\n");
+        //System.out.println("Terrain apres la decomposition des "+ tab.getQteDecomp()+" plastiques biodegradables : \n");
+        //t.affiche(3);
     }
 }

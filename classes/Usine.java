@@ -6,8 +6,7 @@
  *
  * Usine qui gère plusieurs transformations :
  * - la création du plastique à partir du pétrole,
- * - le recyclage du plastique polluant en plastique bio-dégradable, et
- * - la decomposition de ce dernier dans la nature.
+ * - le recyclage du plastique polluant en plastique bio-dégradable
  * 
  */
 
@@ -17,7 +16,6 @@ public class Usine {
     private int qtePetrole = 0;
     private int qteRecycle = 0;
     private int qteMaxRecyclable;
-    private int qtetDecomp = 0;
     private ArrayList<Plastique> liste_P = new ArrayList<Plastique>();
 
     public Usine(int qteMaxRecyclable) {
@@ -80,22 +78,6 @@ public class Usine {
         return qteRecycle;
     }
 
-    public ArrayList<PlastiqueBioDegradable> allDecomposition(Terrain t) {
-        ArrayList<PlastiqueBioDegradable> res = new ArrayList<PlastiqueBioDegradable>();
-        for (Plastique p : this.liste_P) {
-            if (p instanceof PlastiqueBioDegradable) {
-                ((PlastiqueBioDegradable) p).decomposition(t);
-                System.out.println(p.toString());
-                qtetDecomp++;
-                res.add((PlastiqueBioDegradable) p);
-            }
-        }
-        return res;
-    }
-
-    public int getQteDecomp() {
-        return qtetDecomp;
-    }
 
     public void allAugmenteAge() {
         for (Plastique p : this.liste_P) {
@@ -111,7 +93,6 @@ public class Usine {
 
     @Override
     public String toString() {
-        return "On trouve " + qteP() + " plastiques dans le terrain dont " + getQteDecomp() + " se sont decomposés et "
-                + getQteRecycle() + "ont été recyclés ! ";
+        return "On trouve " + qteP() + " plastiques dans le terrain dont "+ getQteRecycle() + "ont été recyclés ! ";
     }
 }

@@ -13,7 +13,7 @@ public class PlastiqueBioDegradable extends Plastique {
             }
         }
         decompose = true;
-    }
+    } 
 
     
     @Override
