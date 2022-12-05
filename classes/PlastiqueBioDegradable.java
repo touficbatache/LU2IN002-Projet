@@ -3,8 +3,8 @@ public class PlastiqueBioDegradable extends Plastique implements Ecologique {
     private int temps;
     private boolean decompose=false;
 
-    public PlastiqueBioDegradable(int quant){
-        super("PBD",quant);
+    public PlastiqueBioDegradable(){
+        super("PBD");
         temps=0; //a l'instant du depot 
         }
 
@@ -27,11 +27,8 @@ public class PlastiqueBioDegradable extends Plastique implements Ecologique {
         if(decompose){
             s+=" Le Plastique s'est decompose";
         }else{
-            s+="Besoin plus de temps pour la decomposition";
+            s+=" Besoin plus de temps pour la decomposition";
         }
         return s;
-    }
-
-
-    
+    }    
 }
