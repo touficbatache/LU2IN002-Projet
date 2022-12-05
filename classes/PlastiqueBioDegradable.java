@@ -1,4 +1,4 @@
-public class PlastiqueBioDegradable extends Plastique implements Ecologique {
+public class PlastiqueBioDegradable extends Plastique {
 
     private boolean decompose = false;
 
