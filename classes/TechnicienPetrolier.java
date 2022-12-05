@@ -1,41 +1,66 @@
+/**
+ *
+ * @author Toufic BATACHE (LU2IN002 2022dec)
+ * @author Haya MAMLOUK (LU2IN002 2022dec)
+ * 
+ * Représentation d'un Technicien Pétrolier, agent qui parcourt le terrain
+ * et collecte du pétrole dans des barils lorsqu'il en trouve. Il peut aussi
+ * transformer ses réserves en plastique.
+ *
+ */
+
 public class TechnicienPetrolier extends Humain {
-    private int quantiteDeCollecte;
-    private int capaciteMaxDeCollecte;
+    private int capaciteDeCollecte;
+    private int capaciteDeBarril;
+    private int nbBarrils;
     private int qteCollectee;
 
-    public TechnicienPetrolier(int quantiteDeCollecte, int capaciteMaxDeCollecte, Terrain t, int x, int y) {
-        super("Technicien Petrolier", t, x, y);
+    public TechnicienPetrolier(int capaciteDeCollecte, int capaciteDeBarril, int nbBarrils, Terrain t) {
+        super("Technicien Petrolier", t);
 
-        this.quantiteDeCollecte = quantiteDeCollecte;
-        this.capaciteMaxDeCollecte = capaciteMaxDeCollecte;
+        this.capaciteDeCollecte = capaciteDeCollecte;
+        this.capaciteDeBarril = capaciteDeBarril;
+        this.nbBarrils = nbBarrils;
         this.qteCollectee = 0;
     }
 
-    public boolean collecte() {
+    public StatutReponse collecte() {
         Ressource ressourceACollecter = getTerrain().getCase(getPosX(), getPosY());
         
         if (ressourceACollecter == null) {
-            System.out.println("Pas de ressource sur cette case.");
-            return false;
+            return new StatutReponse(false, "Pas de ressource sur cette case.");
         }
 
         if (!(ressourceACollecter instanceof Petrole)) {
-            System.out.println("La ressource n'est pas du pétrole.");
-            return false;
+            return new StatutReponse(false, "La ressource n'est pas du pétrole.");
         }
 
-        int aCollecter = Math.min(ressourceACollecter.getQuantite(), quantiteDeCollecte);
-        if (qteCollectee + aCollecter > capaciteMaxDeCollecte) {
-            System.out.println("Je ne peux pas stocker plus de pétrole avec moi.");
-            return false;
+        if (estPlein()) {
+            return new StatutReponse(false, "Je ne peux pas stocker plus de pétrole avec moi.");
+        }
+
+        int aCollecter = Math.min(Math.min(ressourceACollecter.getQuantite(), capaciteDeCollecte), getCapaciteMaxDeCollecte() - qteCollectee);
+        if (qteCollectee + aCollecter > getCapaciteMaxDeCollecte()) {
+            return new StatutReponse(false, "Je ne peux pas stocker plus de pétrole avec moi.");
         }
         ressourceACollecter.setQuantite(ressourceACollecter.getQuantite() - aCollecter);
+        if (ressourceACollecter.getQuantite() == 0) {
+            getTerrain().videCase(ressourceACollecter.getX(), ressourceACollecter.getY());
+        }
         qteCollectee += aCollecter;
-        return true;
+        return new StatutReponse(true, "J'ai collecté " + aCollecter + "L de pétrole. Mes barils contiennent " + qteCollectee + "L en tout.");
+    }
+
+    public int getCapaciteMaxDeCollecte() {
+        return capaciteDeBarril * nbBarrils;
     }
 
     public int getQuantiteCollectee() {
         return qteCollectee;
+    }
+
+    public boolean estPlein() {
+        return qteCollectee == getCapaciteMaxDeCollecte();
     }
 
     public int videCollecte() {
@@ -47,8 +72,7 @@ public class TechnicienPetrolier extends Humain {
     @Override
     public String toString() {
         return super.toString()
-        + " Je peux collecter " + quantiteDeCollecte + "T de pétrole en une seule collecte"
-        + ", je peux garder " + capaciteMaxDeCollecte + "T au maximum sur moi"
-        + " et j'en ai déjà " + qteCollectee + "T.";
+        + " J'ai " + nbBarrils + " barrils qui, réunis, peuvent contenir " + getCapaciteMaxDeCollecte() + "L de pétrole."
+        + " À chaque collecte, je peux extraire " + capaciteDeCollecte + "L seulement et j'en ai déjà " + qteCollectee + "L.";
     }
 }

@@ -1,4 +1,13 @@
-public class Agent {
+/**
+ *
+ * @author Toufic BATACHE (LU2IN002 2022dec)
+ * @author Haya MAMLOUK (LU2IN002 2022dec)
+ *
+ * Représentation des agents qui parcourent le terrain.
+ *
+ */
+
+public abstract class Agent {
     private static int nbAgentsCrees = 0;
     public final int ident;
     public final String type;
@@ -6,12 +15,10 @@ public class Agent {
     private int posX;
     private int posY;
 
-    public Agent(String type, Terrain t, int x, int y) {
+    public Agent(String type, Terrain t) {
         this.ident = Agent.nbAgentsCrees++;
         this.type = type;
         this.terrain = t;
-        this.posX = x;
-        this.posY = y;
     }
 
     protected Terrain getTerrain() {
