@@ -24,7 +24,7 @@ public class TechnicienPetrolier extends Humain {
         this.qteCollectee = 0;
     }
 
-    public StatutReponse collecte() {
+    public StatutReponse collecter() {
         Ressource ressourceACollecter = getTerrain().getCase(getPosX(), getPosY());
         
         if (ressourceACollecter == null) {

@@ -2,8 +2,8 @@ public class PlastiquePolluant extends Plastique {
 
     private boolean estRecycle = false;
 
-    public PlastiquePolluant() {
-        super("PP");
+    public PlastiquePolluant(int qte) {
+        super("PP", qte);
     }
 
     public void recycler(Terrain t) {

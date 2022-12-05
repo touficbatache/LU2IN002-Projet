@@ -4,7 +4,7 @@ public class PlastiqueBioDegradable extends Plastique implements Ecologique {
     private boolean decompose = false;
 
     public PlastiqueBioDegradable() {
-        super("PBD");
+        super("PBD", 1);
         temps = 0; // a l'instant du depot
     }
 

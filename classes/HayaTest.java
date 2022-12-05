@@ -2,11 +2,11 @@ public class HayaTest {
     public static void main(String[] args) {
         Terrain t = new Terrain();
 
-        PlastiquePolluant pp1 = new PlastiquePolluant();
-        PlastiquePolluant pp2 = new PlastiquePolluant();
-        PlastiquePolluant pp3 = new PlastiquePolluant();
-        PlastiquePolluant pp4 = new PlastiquePolluant();
-        PlastiquePolluant pp5 = new PlastiquePolluant();
+        PlastiquePolluant pp1 = new PlastiquePolluant(1);
+        PlastiquePolluant pp2 = new PlastiquePolluant(1);
+        PlastiquePolluant pp3 = new PlastiquePolluant(1);
+        PlastiquePolluant pp4 = new PlastiquePolluant(1);
+        PlastiquePolluant pp5 = new PlastiquePolluant(1);
 
         t.setCase((int) (Math.random() * t.nbLignes), (int) (Math.random() * t.nbColonnes), pp1);
         t.setCase((int) (Math.random() * t.nbLignes), (int) (Math.random() * t.nbColonnes), pp2);
@@ -28,19 +28,19 @@ public class HayaTest {
 
         for(int i = 0; i < 20; i++) {
             if (Math.random() < 0.6) {
-                t.setCase((int) (Math.random() * t.nbLignes), (int) (Math.random() * t.nbColonnes), new PlastiquePolluant());
+                t.setCase((int) (Math.random() * t.nbLignes), (int) (Math.random() * t.nbColonnes), new PlastiquePolluant(1));
             } else {
                 t.setCase((int) (Math.random() * t.nbLignes), (int) (Math.random() * t.nbColonnes), new PlastiqueBioDegradable());
             }
         }
 
         t.affiche(3);
-        
+
         pbd1.augmenteTemps(); pbd2.augmenteTemps(); pbd3.augmenteTemps();
         pbd1.decomposition(t); pbd2.decomposition(t); pbd3.decomposition(t); pbd4.decomposition(t); 
 
         System.out.println(pbd1.toString()); System.out.println(pbd5.toString());
-        
+
         Recyclage rec = new Recyclage(20);
         rec.ajouterRecyclage(pp1, t); rec.ajouterRecyclage(pp2, t); rec.ajouterRecyclage(pp3, t); rec.ajouterRecyclage(pp4, t);
         System.out.println("La liste des plastiques recycles : \n");

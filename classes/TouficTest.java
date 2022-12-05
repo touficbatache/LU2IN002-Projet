@@ -53,7 +53,7 @@ public class TouficTest {
 					tp.seDeplacer(i, j);
 					boolean collecteSucces = true;
 					while (collecteSucces) {
-						StatutReponse collecteResultat = tp.collecte();
+						StatutReponse collecteResultat = tp.collecter();
 						if (collecteResultat.succes) {
 							System.out.println(collecteResultat.message);
 						}
@@ -66,15 +66,23 @@ public class TouficTest {
 			System.out.println("Informations sur le terrain:\n" + t + "\n");
 		}
 
-		System.out.println("Nos Techniciens Pétroliers après ramassage :");
+		System.out.println("Nos Techniciens Pétroliers après extraction :");
+		int totalExtraction = 0;
 		for (TechnicienPetrolier tp : tps) {
 			System.out.println(tp);
+			totalExtraction += tp.getQuantiteCollectee();
 		}
+		System.out.println("Ils ont collecté " + totalExtraction + "L en tout.");
 
+		Usine u = new Usine();
+		for (TechnicienPetrolier tp : tps) {
+			u.deposerPetrole(tp.videCollecte());
+		}
+		PlastiquePolluant pp = u.produirePlastique();
+		System.out.println(pp);
 	}
 
 	private static int randEntre(int min, int max) {
 		return (int) (Math.random() * Math.abs(max - min) + min);
 	}
-
 }
