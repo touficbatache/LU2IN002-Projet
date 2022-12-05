@@ -6,7 +6,7 @@ public class PlastiquePolluant extends Plastique {
         super("PP", qte);
     }
 
-    public void recycler(Terrain t) {
+    public void recyclage(Terrain t) {
         if (t.getCase(super.getX(), super.getY()) instanceof PlastiquePolluant) {
             t.videCase(super.getX(), super.getY());
         }
