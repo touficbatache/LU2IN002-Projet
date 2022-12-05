@@ -25,9 +25,9 @@ public class PlastiqueBioDegradable extends Plastique implements Ecologique {
     public String toString() {
         String s = super.toString();
         if (decompose) {
-            s += " Le Plastique s'est decompose";
+            s += " S'est décomposé";
         } else {
-            s += " Besoin plus de temps pour la decomposition";
+            s += " Besoin plus de temps pour la décomposition";
         }
         return s;
     }
