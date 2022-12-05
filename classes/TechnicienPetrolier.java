@@ -9,14 +9,14 @@
  *
  */
 
-public class TechnicienPetrolier extends Humain {
+public class TechnicienPetrolier extends Agent {
     private int capaciteDeCollecte;
     private int capaciteDeBarril;
     private int nbBarrils;
     private int qteCollectee;
 
     public TechnicienPetrolier(int capaciteDeCollecte, int capaciteDeBarril, int nbBarrils, Terrain t) {
-        super("Technicien Petrolier", t);
+        super("TechnicienPetrolier", t);
 
         this.capaciteDeCollecte = capaciteDeCollecte;
         this.capaciteDeBarril = capaciteDeBarril;
