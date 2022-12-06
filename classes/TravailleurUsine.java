@@ -1,15 +1,14 @@
-import java.util.ArrayList;
-
 public class TravailleurUsine extends Agent implements Collecteur {
     private int capaciteDeCollecte;
     private int capaciteDeStockage;
-    private ArrayList<PlastiquePolluant> listeCollectes = new ArrayList<PlastiquePolluant>();
+    private int qteCollectee;
 
     public TravailleurUsine(int capaciteDeCollecte, int capaciteDeStockage, Terrain t) {
         super("TravailleurUsine", t);
 
         this.capaciteDeCollecte = capaciteDeCollecte;
         this.capaciteDeStockage = capaciteDeStockage;
+        this.qteCollectee = 0;
     }
 
     @Override
@@ -36,10 +35,9 @@ public class TravailleurUsine extends Agent implements Collecteur {
         if (ressourceACollecter.getQuantite() == 0) {
             getTerrain().videCase(ressourceACollecter.getX(), ressourceACollecter.getY());
         }
-        listeCollectes.add(new PlastiquePolluant(aCollecter));
+        qteCollectee += aCollecter;
         return new StatutReponse(true, "J'ai collecté " + aCollecter + "kg de plastique. J'ai " + getQuantiteCollectee() + "kg en tout.");
     }
-
 
     @Override
     public int getCapaciteDeStockage() {
@@ -48,7 +46,7 @@ public class TravailleurUsine extends Agent implements Collecteur {
 
     @Override
     public int getQuantiteCollectee() {
-        return listeCollectes.size();
+        return qteCollectee;
     }
 
     @Override
@@ -56,15 +54,11 @@ public class TravailleurUsine extends Agent implements Collecteur {
         return getQuantiteCollectee() >= capaciteDeStockage;
     }
 
-    public ArrayList<PlastiquePolluant> videCollecte() {
-        ArrayList<PlastiquePolluant> liste = new ArrayList<PlastiquePolluant>();
-        liste.addAll(listeCollectes);
-        listeCollectes.clear();
-        return liste;
-    }
-
-    public ArrayList<PlastiquePolluant> getListeCollectes(){
-        return listeCollectes;
+    @Override
+    public int videCollecte() {
+        int qte = getQuantiteCollectee();
+        qteCollectee = 0;
+        return qte;
     }
 
     @Override

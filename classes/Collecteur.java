@@ -6,4 +6,6 @@ public interface Collecteur {
     public int getQuantiteCollectee();
 
     public boolean estPlein();
+
+    public int videCollecte();
 }

@@ -67,6 +67,7 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
         return getQuantiteCollectee() >= getCapaciteDeStockage();
     }
 
+    @Override
     public int videCollecte() {
         int qte = getQuantiteCollectee();
         qteCollectee = 0;

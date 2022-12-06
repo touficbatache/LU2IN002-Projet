@@ -22,7 +22,6 @@ public class Usine {
     private int qteRecycle = 0;
     private int qteMaxRecyclable;
     private ArrayList<Plastique> liste_P = new ArrayList<Plastique>();
-    private ArrayList<PlastiqueBioDegradable> liste_R= new ArrayList<PlastiqueBioDegradable>();
 
     public Usine(Terrain terrain, int qteMaxRecyclable) {
         this.terrain = terrain;
@@ -91,8 +90,18 @@ public class Usine {
      * @return le plastique polluant produit
      * 
      */
-    public PlastiquePolluant produirePlastique() {
-        return new PlastiquePolluant((int) (videExtractionPetrole() / 100.0));
+    public ArrayList<PlastiquePolluant> produirePlastique() {
+        // TODO: throw some exception if no petrole in stock
+        // if (videExtractionPetrole() == 0) {
+        //     ...exception
+        // }
+        ArrayList<PlastiquePolluant> pps = new ArrayList<PlastiquePolluant>();
+        int nbPlastiqueProduit = (int) (videExtractionPetrole() / 100.0);
+        for (int i = 0; i < nbPlastiqueProduit; i++) {
+            int randQte = (int) (Math.random() * 4 + 3); // entre 3 et 7
+            pps.add(new PlastiquePolluant(randQte));
+        }
+        return pps;
     }
 
     public ArrayList<TravailleurUsine> getTravailleurs() {
@@ -138,25 +147,30 @@ public class Usine {
         travailleurs.clear();
     }
     
-    public ArrayList<PlastiquePolluant> videRamassagePlastique() {
-        ArrayList<PlastiquePolluant> liste = new ArrayList<PlastiquePolluant>();
+    public int videRamassagePlastique() {
+        int totalRamassage = 0;
 		for (TravailleurUsine tu : travailleurs) {
-			liste.addAll(tu.videCollecte());
+			totalRamassage += tu.videCollecte();
 		}
-        return liste;
+        return totalRamassage;
     }
 
-    public void recyclerTout() {
-        if (qteRecycle >= qteMaxRecyclable) {
-            return;
+    public ArrayList<PlastiqueBioDegradable> recyclerTout() {
+        // TODO: throw exception here too
+        // if (qteRecycle >= qteMaxRecyclable) {
+        //     ...exception
+        // }
+
+        ArrayList<PlastiqueBioDegradable> pbds = new ArrayList<PlastiqueBioDegradable>();
+        int step = (int) (Math.random() * 2 + 2); // entre 2 et 4
+        int nbPlastiqueRamasse = videRamassagePlastique();
+        int nbPBD = (int) Math.ceil((double) nbPlastiqueRamasse / step);
+        for (int i = 0; i < nbPBD; i++) {
+            int qte = Math.min(nbPlastiqueRamasse, step);
+            pbds.add(new PlastiqueBioDegradable(qte));
+            nbPlastiqueRamasse -= qte;
         }
-        for(TravailleurUsine tu : travailleurs){
-            for (PlastiquePolluant pp : tu.getListeCollectes() ) {
-                liste_R.add(pp.recyclage());
-                System.out.println(pp.toString());
-                qteRecycle++;
-            }
-        }
+        return pbds;
     }
 
     public ArrayList<Plastique> ajouterLifeCycle(Terrain t) {
@@ -170,12 +184,6 @@ public class Usine {
         return liste_P;
     }
 
-    public void jeterDansTerrain(Terrain t){
-        for(PlastiqueBioDegradable p : liste_R){
-            t.setCase((int)Math.random()*t.nbLignes+1, (int)Math.random()*t.nbColonnes+1, p);
-        }
-    }
-
     public int qteP() {
         return liste_P.size();
     }
@@ -183,17 +191,6 @@ public class Usine {
     public int getQteRecycle() {
         return qteRecycle;
     }
-
-    public ArrayList<PlastiqueBioDegradable> getListe_R(){
-        return liste_R;
-    }
-
-    public void allAugmenteAge() {
-        for (PlastiqueBioDegradable pbd : this.liste_R) {
-            pbd.augmenteAge();
-        }
-    }
-
 
     public void afficheListe() {
         for (Plastique p : liste_P) {
