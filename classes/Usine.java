@@ -22,6 +22,7 @@ public class Usine {
     private int qteRecycle = 0;
     private int qteMaxRecyclable;
     private ArrayList<Plastique> liste_P = new ArrayList<Plastique>();
+    private ArrayList<PlastiqueBioDegradable> liste_R= new ArrayList<PlastiqueBioDegradable>();
 
     public Usine(Terrain terrain, int qteMaxRecyclable) {
         this.terrain = terrain;
@@ -149,11 +150,12 @@ public class Usine {
         if (qteRecycle >= qteMaxRecyclable) {
             return;
         }
-
-        for (PlastiquePolluant pp : videRamassagePlastique()) {
-            pp.recyclage();
-            System.out.println(pp.toString());
-            qteRecycle++;
+        for(TravailleurUsine tu : travailleurs){
+            for (PlastiquePolluant pp : tu.getListeCollectes() ) {
+                liste_R.add(pp.recyclage());
+                System.out.println(pp.toString());
+                qteRecycle++;
+            }
         }
     }
 
@@ -168,30 +170,30 @@ public class Usine {
         return liste_P;
     }
 
-    public int qteP() {
-        return liste_P.size();
+    public void jeterDansTerrain(Terrain t){
+        for(PlastiqueBioDegradable p : liste_R){
+            t.setCase((int)Math.random()*t.nbLignes+1, (int)Math.random()*t.nbColonnes+1, p);
+        }
     }
 
-    public void allRecyclage(TravailleurUsine tU) {
-        if (qteRecycle < qteMaxRecyclable) {
-            tU.collecterPlastique();
-            for (PlastiquePolluant p : tU.videCollecte()) {
-                ((PlastiquePolluant) p).recyclage();
-                System.out.println(p.toString());
-                qteRecycle++;
-            }
-        }
+    public int qteP() {
+        return liste_P.size();
     }
 
     public int getQteRecycle() {
         return qteRecycle;
     }
 
+    public ArrayList<PlastiqueBioDegradable> getListe_R(){
+        return liste_R;
+    }
+
     public void allAugmenteAge() {
-        for (Plastique p : this.liste_P) {
-            p.augmenteAge();
+        for (PlastiqueBioDegradable pbd : this.liste_R) {
+            pbd.augmenteAge();
         }
     }
+
 
     public void afficheListe() {
         for (Plastique p : liste_P) {

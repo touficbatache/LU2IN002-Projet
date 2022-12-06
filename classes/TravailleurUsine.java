@@ -40,22 +40,6 @@ public class TravailleurUsine extends Agent implements Collecteur {
         return new StatutReponse(true, "J'ai collecté " + aCollecter + "kg de plastique. J'ai " + getQuantiteCollectee() + "kg en tout.");
     }
 
-    public void collecterPlastique() {
-        if (getQuantiteCollectee() < capaciteDeCollecte) {
-            for (int i = 0; i < getTerrain().nbLignes; i++) {
-                for (int j = 0; j < getTerrain().nbColonnes; j++) {
-                    if (getTerrain().getCase(i, j) instanceof PlastiquePolluant) {
-                        seDeplacer(i, j);
-                        listeCollectes.add((PlastiquePolluant) getTerrain().getCase(i, j));
-                        getTerrain().videCase(i, j);
-                    }
-                }
-            }
-            System.out.println("Tout le plastique présent sur le terrain a été collecté !");
-        } else {
-            System.out.println("Il faut déposer le plastique a l'usine");
-        }
-    }
 
     @Override
     public int getCapaciteDeStockage() {
@@ -77,6 +61,10 @@ public class TravailleurUsine extends Agent implements Collecteur {
         liste.addAll(listeCollectes);
         listeCollectes.clear();
         return liste;
+    }
+
+    public ArrayList<PlastiquePolluant> getListeCollectes(){
+        return listeCollectes;
     }
 
     @Override

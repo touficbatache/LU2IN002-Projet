@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class PlastiquePolluant extends Plastique {
 
     private boolean estRecycle = false;
@@ -8,8 +6,9 @@ public class PlastiquePolluant extends Plastique {
         super("PP", qte);
     }
 
-    public void recyclage() {
+    public PlastiqueBioDegradable recyclage() {
         estRecycle = true;
+        return new PlastiqueBioDegradable(getQuantite());
     }
 
     @Override
