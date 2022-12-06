@@ -1,5 +1,15 @@
-public class PlastiquePolluant extends Plastique {
+/**
+ *
+ * @author Toufic BATACHE (LU2IN002 2022dec)
+ * @author Haya MAMLOUK (LU2IN002 2022dec)
+ *
+ * Plastique polluant qui ne se décompose pas dans l'eau
+ * tout seul. Il est ramassé par les {@TravailleurUsine}
+ * pour être recyclé en {@PlastiqueBioDegradable}.
+ * 
+ */
 
+public class PlastiquePolluant extends Plastique {
     private boolean estRecycle = false;
 
     public PlastiquePolluant(int qte) {

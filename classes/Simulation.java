@@ -1,3 +1,12 @@
+/**
+ *
+ * @author Toufic BATACHE (LU2IN002 2022dec)
+ * @author Haya MAMLOUK (LU2IN002 2022dec)
+ *
+ * Simulation de l'écosystème créé.
+ * 
+ */
+
 import java.util.ArrayList;
 
 public class Simulation {

@@ -1,5 +1,15 @@
-public class PlastiqueBioDegradable extends Plastique {
+/**
+ *
+ * @author Toufic BATACHE (LU2IN002 2022dec)
+ * @author Haya MAMLOUK (LU2IN002 2022dec)
+ *
+ * Plastique bio-dégradable qui se décompose dans l'eau après
+ * un bout de temps, contrairement au {@PlastiquePolluant}
+ * qui a besoin d'être ramassé par un {@TravailleurUsine}.
+ * 
+ */
 
+public class PlastiqueBioDegradable extends Plastique {
     private boolean decompose = false;
 
     public PlastiqueBioDegradable(int qte) {
@@ -8,14 +18,13 @@ public class PlastiqueBioDegradable extends Plastique {
 
     public void decomposition(Terrain t) {
         if (t.getCase(super.getX(), super.getY()) instanceof PlastiqueBioDegradable) {
-            if (this.getAge()>= 1) {
+            if (this.getAge() >= 1) {
                 t.videCase(super.getX(), super.getY());
             }
         }
         decompose = true;
-    } 
+    }
 
-    
     @Override
     public String toString() {
         String s = super.toString();
