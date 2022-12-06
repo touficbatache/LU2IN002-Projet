@@ -73,7 +73,8 @@ public class TravailleurUsine extends Agent implements Collecteur {
     }
 
     public ArrayList<PlastiquePolluant> videCollecte() {
-        ArrayList<PlastiquePolluant> liste = listeCollectes;
+        ArrayList<PlastiquePolluant> liste = new ArrayList<PlastiquePolluant>();
+        liste.addAll(listeCollectes);
         listeCollectes.clear();
         return liste;
     }

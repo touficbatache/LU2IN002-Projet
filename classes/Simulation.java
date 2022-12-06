@@ -8,6 +8,8 @@ public class Simulation {
         terrain.affiche(2);
         System.out.println("Informations sur le terrain:\n" + terrain + "\n");
 
+        Usine u = new Usine(terrain, 20);
+
         int nbPetrole = randEntre(2, 6);
 		for (int i = 0; i < nbPetrole; i++) {
 			int x = randEntre(0, 4);
@@ -30,40 +32,19 @@ public class Simulation {
 			tps.add(new TechnicienPetrolier(capaciteDeCollecte, capaciteDeBarril, nbBarrils, terrain));
 			System.out.println(tps.get(i));
 		}
-
-        for (TechnicienPetrolier tp : tps) {
-			System.out.println("\nLe Téchnicien numéro " + tp.ident + " parcourt le terrain.");
-			for (int i = 0; i < terrainSize[0] && !tp.estPlein(); i++) {
-				for (int j = 0; j < terrainSize[1] && !tp.estPlein(); j++) {
-					if (terrain.getCase(i, j) instanceof Petrole) {
-						Petrole p = (Petrole) terrain.getCase(i, j);
-						System.out.println("J'ai trouvé " + p.getQuantite() + "L de pétrole en (" + p.getX() + ", " + p.getY() + ")");
-					}
-					tp.seDeplacer(i, j);
-					boolean collecteSucces = true;
-					while (collecteSucces) {
-						StatutReponse collecteResultat = tp.collecter();
-						if (collecteResultat.succes) {
-							System.out.println(collecteResultat.message);
-						}
-						collecteSucces = collecteResultat.succes;
-					}
-				}
-			}
-
-			terrain.affiche(7);
-			System.out.println("Informations sur le terrain:\n" + terrain + "\n");
-		}
+        u.addTechniciens(tps);
+        u.runTechniciens();
+        terrain.affiche(7);
+        System.out.println("Informations sur le terrain:\n" + terrain + "\n");
 
 		System.out.println("Nos Techniciens Pétroliers après extraction :");
 		int totalExtraction = 0;
-		for (TechnicienPetrolier tp : tps) {
+		for (TechnicienPetrolier tp : u.getTechniciens()) {
 			System.out.println(tp);
 			totalExtraction += tp.getQuantiteCollectee();
 		}
 		System.out.println("Ils ont collecté " + totalExtraction + "L en tout.\n");
-
-        Usine u = new Usine(terrain, 20);
+        
 		for (TechnicienPetrolier tp : tps) {
 			u.deposerPetrole(tp.videCollecte());
 		}
@@ -98,6 +79,8 @@ public class Simulation {
 			totalRamassage += tu.getQuantiteCollectee();
 		}
 		System.out.println("Ils ont collecté " + totalRamassage + "kg de plastique polluant en tout.\n");
+
+        u.recyclerTout();
     }
 
     private static int randEntre(int min, int max) {

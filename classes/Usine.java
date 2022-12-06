@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Usine {
     private Terrain terrain;
 
+    private ArrayList<TechnicienPetrolier> techniciens = new ArrayList<TechnicienPetrolier>();
     private int qtePetrole = 0;
 
     private ArrayList<TravailleurUsine> travailleurs = new ArrayList<TravailleurUsine>();
@@ -26,6 +27,45 @@ public class Usine {
     public Usine(Terrain terrain, int qteMaxRecyclable) {
         this.terrain = terrain;
         this.qteMaxRecyclable = qteMaxRecyclable;
+    }
+
+    public ArrayList<TechnicienPetrolier> getTechniciens() {
+        return techniciens;
+    }
+
+    public void addTechniciens(ArrayList<TechnicienPetrolier> tps) {
+        techniciens.addAll(tps);
+    }
+
+    public void runTechniciens() {
+        for (TechnicienPetrolier technicien : techniciens) {
+            System.out.println("\nLe Téchnicien numéro " + technicien.ident + " parcourt le terrain.");
+            for (int i = 0; i < Simulation.terrainSize[0] && !technicien.estPlein(); i++) {
+                for (int j = 0; j < Simulation.terrainSize[1] && !technicien.estPlein(); j++) {
+                    if (terrain.getCase(i, j) instanceof Petrole) {
+                        Petrole p = (Petrole) terrain.getCase(i, j);
+                        System.out.println("J'ai trouvé " + p.getQuantite() + "L de pétrole en (" + p.getX() + ", "
+                                + p.getY() + ")");
+                    }
+                    technicien.seDeplacer(i, j);
+                    boolean collecteSucces = true;
+                    while (collecteSucces) {
+                        StatutReponse collecteResultat = technicien.collecter();
+                        if (collecteResultat.succes) {
+                            System.out.println(collecteResultat.message);
+                        }
+                        collecteSucces = collecteResultat.succes;
+                    }
+                }
+            }
+
+            terrain.affiche(7);
+		    System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+        }
+    }
+
+    public void removeTechniciens() {
+        techniciens.clear();
     }
 
     /**
@@ -60,29 +100,53 @@ public class Usine {
 
     public void runTravailleurs() {
         for (TravailleurUsine travailleur : travailleurs) {
-			System.out.println("\nLe Travailleur numéro " + travailleur.ident + " parcourt le terrain.");
-			for (int i = 0; i < Simulation.terrainSize[0]; i++) {
-				for (int j = 0; j < Simulation.terrainSize[1]; j++) {
-					if (terrain.getCase(i, j) instanceof PlastiquePolluant) {
-						PlastiquePolluant tPP = (PlastiquePolluant) terrain.getCase(i, j);
-						System.out.println("J'ai trouvé " + tPP.getQuantite() + "kg de plastique en (" + tPP.getX() + ", " + tPP.getY() + ")");
-					}
-					travailleur.seDeplacer(i, j);
-					boolean collecteSucces = true;
-					while (collecteSucces) {
-						StatutReponse collecteResultat = travailleur.collecter();
-						if (collecteResultat.succes) {
-							System.out.println(collecteResultat.message);
-						}
-						collecteSucces = collecteResultat.succes;
-					}
-				}
-			}
-		}
-    }
+            System.out.println("\nLe Travailleur numéro " + travailleur.ident + " parcourt le terrain.");
+            for (int i = 0; i < Simulation.terrainSize[0] && !travailleur.estPlein(); i++) {
+                for (int j = 0; j < Simulation.terrainSize[1] && !travailleur.estPlein(); j++) {
+                    if (terrain.getCase(i, j) instanceof PlastiquePolluant) {
+                        PlastiquePolluant tPP = (PlastiquePolluant) terrain.getCase(i, j);
+                        System.out.println("J'ai trouvé " + tPP.getQuantite() + "kg de plastique en (" + tPP.getX()
+                                + ", " + tPP.getY() + ")");
+                    }
+                    travailleur.seDeplacer(i, j);
+                    boolean collecteSucces = true;
+                    while (collecteSucces) {
+                        StatutReponse collecteResultat = travailleur.collecter();
+                        if (collecteResultat.succes) {
+                            System.out.println(collecteResultat.message);
+                        }
+                        collecteSucces = collecteResultat.succes;
+                    }
+                }
+            }
 
+            terrain.affiche(7);
+		    System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+        }
+    }
+    
     public void removeTravailleurs() {
         travailleurs.clear();
+    }
+    
+    public ArrayList<PlastiquePolluant> videRamassage() {
+        ArrayList<PlastiquePolluant> liste = new ArrayList<PlastiquePolluant>();
+		for (TravailleurUsine tu : travailleurs) {
+			liste.addAll(tu.videCollecte());
+		}
+        return liste;
+    }
+
+    public void recyclerTout() {
+        if (qteRecycle >= qteMaxRecyclable) {
+            return;
+        }
+
+        for (PlastiquePolluant pp : videRamassage()) {
+            pp.recyclage();
+            System.out.println(pp.toString());
+            qteRecycle++;
+        }
     }
 
     public ArrayList<Plastique> ajouterLifeCycle(Terrain t) {
@@ -129,6 +193,7 @@ public class Usine {
 
     @Override
     public String toString() {
-        return "On a trouvé " + qteP() + " plastiques dans le terrain dont " + getQteRecycle() + "ont été recyclés ! ";
+        return "On a trouvé " + qteP() + "kg de plastique polluant sur le terrain" +
+        " dont " + getQteRecycle() + "kg ont été recyclés ! ";
     }
 }
