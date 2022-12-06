@@ -9,7 +9,7 @@
  *
  */
 
-public class TechnicienPetrolier extends Agent {
+public class TechnicienPetrolier extends Agent implements Collecteur {
     private int capaciteDeCollecte;
     private int capaciteDeBarril;
     private int nbBarrils;
@@ -24,7 +24,12 @@ public class TechnicienPetrolier extends Agent {
         this.qteCollectee = 0;
     }
 
+    @Override
     public StatutReponse collecter() {
+        if (estPlein()) {
+            return new StatutReponse(false, "Je ne peux pas stocker plus de pétrole avec moi.");
+        }
+
         Ressource ressourceACollecter = getTerrain().getCase(getPosX(), getPosY());
         
         if (ressourceACollecter == null) {
@@ -35,12 +40,8 @@ public class TechnicienPetrolier extends Agent {
             return new StatutReponse(false, "La ressource n'est pas du pétrole.");
         }
 
-        if (estPlein()) {
-            return new StatutReponse(false, "Je ne peux pas stocker plus de pétrole avec moi.");
-        }
-
-        int aCollecter = Math.min(Math.min(ressourceACollecter.getQuantite(), capaciteDeCollecte), getCapaciteMaxDeCollecte() - qteCollectee);
-        if (qteCollectee + aCollecter > getCapaciteMaxDeCollecte()) {
+        int aCollecter = Math.min(Math.min(ressourceACollecter.getQuantite(), capaciteDeCollecte), getCapaciteDeStockage() - getQuantiteCollectee());
+        if (getQuantiteCollectee() + aCollecter > getCapaciteDeStockage()) {
             return new StatutReponse(false, "Je ne peux pas stocker plus de pétrole avec moi.");
         }
         ressourceACollecter.setQuantite(ressourceACollecter.getQuantite() - aCollecter);
@@ -48,23 +49,26 @@ public class TechnicienPetrolier extends Agent {
             getTerrain().videCase(ressourceACollecter.getX(), ressourceACollecter.getY());
         }
         qteCollectee += aCollecter;
-        return new StatutReponse(true, "J'ai collecté " + aCollecter + "L de pétrole. Mes barils contiennent " + qteCollectee + "L en tout.");
+        return new StatutReponse(true, "J'ai collecté " + aCollecter + "L de pétrole. Mes barils contiennent " + getQuantiteCollectee() + "L en tout.");
     }
 
-    public int getCapaciteMaxDeCollecte() {
+    @Override
+    public int getCapaciteDeStockage() {
         return capaciteDeBarril * nbBarrils;
     }
 
+    @Override
     public int getQuantiteCollectee() {
         return qteCollectee;
     }
 
+    @Override
     public boolean estPlein() {
-        return qteCollectee == getCapaciteMaxDeCollecte();
+        return getQuantiteCollectee() >= getCapaciteDeStockage();
     }
 
     public int videCollecte() {
-        int qte = qteCollectee;
+        int qte = getQuantiteCollectee();
         qteCollectee = 0;
         return qte;
     }
@@ -72,7 +76,7 @@ public class TechnicienPetrolier extends Agent {
     @Override
     public String toString() {
         return super.toString()
-        + " J'ai " + nbBarrils + " barrils qui, réunis, peuvent contenir " + getCapaciteMaxDeCollecte() + "L de pétrole."
-        + " À chaque collecte, je peux extraire " + capaciteDeCollecte + "L seulement et j'en ai déjà " + qteCollectee + "L.";
+        + " J'ai " + nbBarrils + " barrils qui, réunis, peuvent contenir " + getCapaciteDeStockage() + "L de pétrole."
+        + " À chaque collecte, je peux extraire " + capaciteDeCollecte + "L seulement et j'en ai déjà " + getQuantiteCollectee() + "L.";
     }
 }

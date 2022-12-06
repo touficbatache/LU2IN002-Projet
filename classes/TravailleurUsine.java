@@ -1,24 +1,52 @@
 import java.util.ArrayList;
 
-public class TravailleurUsine extends Agent {
+public class TravailleurUsine extends Agent implements Collecteur {
+    private int capaciteDeCollecte;
+    private int capaciteDeStockage;
+    private ArrayList<PlastiquePolluant> listeCollectes = new ArrayList<PlastiquePolluant>();
 
-    private int qteMaxCollecter;
-    private int qteCollecter = 0;
-    private ArrayList<PlastiquePolluant> liste_Collecter = new ArrayList<PlastiquePolluant>();
-
-    public TravailleurUsine(Terrain t, int max) {
+    public TravailleurUsine(int capaciteDeCollecte, int capaciteDeStockage, Terrain t) {
         super("TravailleurUsine", t);
-        qteMaxCollecter = max;
+
+        this.capaciteDeCollecte = capaciteDeCollecte;
+        this.capaciteDeStockage = capaciteDeStockage;
+    }
+
+    @Override
+    public StatutReponse collecter() {
+        if (estPlein()) {
+            return new StatutReponse(false, "Je ne peux pas stocker plus de plastique avec moi. Besoin de déposer à l'usine.");
+        }
+
+        Ressource ressourceACollecter = getTerrain().getCase(getPosX(), getPosY());
+
+        if (ressourceACollecter == null) {
+            return new StatutReponse(false, "Pas de ressource sur cette case.");
+        }
+
+        if (!(ressourceACollecter instanceof PlastiquePolluant)) {
+            return new StatutReponse(false, "La ressource n'est pas du plastique polluant.");
+        }
+
+        int aCollecter = Math.min(Math.min(ressourceACollecter.getQuantite(), capaciteDeCollecte), getCapaciteDeStockage() - getQuantiteCollectee());
+        // if (getQuantiteCollectee() + aCollecter > getCapaciteDeStockage()) {
+        //     return new StatutReponse(false, "Je ne peux pas stocker plus de plastique avec moi. Besoin de déposer à l'usine.");
+        // }
+        ressourceACollecter.setQuantite(ressourceACollecter.getQuantite() - aCollecter);
+        if (ressourceACollecter.getQuantite() == 0) {
+            getTerrain().videCase(ressourceACollecter.getX(), ressourceACollecter.getY());
+        }
+        listeCollectes.add(new PlastiquePolluant(aCollecter));
+        return new StatutReponse(true, "J'ai collecté " + aCollecter + "kg de plastique. J'ai " + getQuantiteCollectee() + "kg en tout.");
     }
 
     public void collecterPlastique() {
-        if (qteCollecter < qteMaxCollecter) {
+        if (getQuantiteCollectee() < capaciteDeCollecte) {
             for (int i = 0; i < getTerrain().nbLignes; i++) {
                 for (int j = 0; j < getTerrain().nbColonnes; j++) {
                     if (getTerrain().getCase(i, j) instanceof PlastiquePolluant) {
                         seDeplacer(i, j);
-                        liste_Collecter.add((PlastiquePolluant) getTerrain().getCase(i, j));
-                        qteCollecter++;
+                        listeCollectes.add((PlastiquePolluant) getTerrain().getCase(i, j));
                         getTerrain().videCase(i, j);
                     }
                 }
@@ -29,19 +57,32 @@ public class TravailleurUsine extends Agent {
         }
     }
 
-    public void resetQteCollecter() {
-        qteCollecter = 0;
+    @Override
+    public int getCapaciteDeStockage() {
+        return capaciteDeStockage;
     }
 
-    public int getQteCollecter() {
-        return qteCollecter;
+    @Override
+    public int getQuantiteCollectee() {
+        return listeCollectes.size();
     }
 
-    public ArrayList<PlastiquePolluant> getListeCollecter() {
-        return liste_Collecter;
+    @Override
+    public boolean estPlein() {
+        return getQuantiteCollectee() >= capaciteDeStockage;
     }
 
+    public ArrayList<PlastiquePolluant> videCollecte() {
+        ArrayList<PlastiquePolluant> liste = listeCollectes;
+        listeCollectes.clear();
+        return liste;
+    }
+
+    @Override
     public String toString() {
-        return "J'ai collecté " + getQteCollecter() + " plastiques du terrain pour le recyclage !";
+        return super.toString() +
+        " Je peux stocker " + getCapaciteDeStockage() + "kg de plastique avec moi." +
+        " À chaque collecte, je peux ramasser " + capaciteDeCollecte + "kg de plastique polluant" +
+        " et j'en ai déjà " + getQuantiteCollectee() + "kg sur moi.";
     }
 }

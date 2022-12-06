@@ -13,15 +13,21 @@
 import java.util.ArrayList;
 
 public class Usine {
+    private Terrain terrain;
+
     private int qtePetrole = 0;
+
+    private ArrayList<TravailleurUsine> travailleurs = new ArrayList<TravailleurUsine>();
+
     private int qteRecycle = 0;
     private int qteMaxRecyclable;
     private ArrayList<Plastique> liste_P = new ArrayList<Plastique>();
 
-    public Usine(int qteMaxRecyclable) {
+    public Usine(Terrain terrain, int qteMaxRecyclable) {
+        this.terrain = terrain;
         this.qteMaxRecyclable = qteMaxRecyclable;
     }
-    
+
     /**
      * Depose le pétrole dans l'usine pour qu'il puisse être recyclé par la suite.
      * 
@@ -44,6 +50,41 @@ public class Usine {
         return new PlastiquePolluant((int) (qte / 100.0));
     }
 
+    public ArrayList<TravailleurUsine> getTravailleurs() {
+        return travailleurs;
+    }
+
+    public void addTravailleurs(ArrayList<TravailleurUsine> tus) {
+        travailleurs.addAll(tus);
+    }
+
+    public void runTravailleurs() {
+        for (TravailleurUsine travailleur : travailleurs) {
+			System.out.println("\nLe Travailleur numéro " + travailleur.ident + " parcourt le terrain.");
+			for (int i = 0; i < Simulation.terrainSize[0]; i++) {
+				for (int j = 0; j < Simulation.terrainSize[1]; j++) {
+					if (terrain.getCase(i, j) instanceof PlastiquePolluant) {
+						PlastiquePolluant tPP = (PlastiquePolluant) terrain.getCase(i, j);
+						System.out.println("J'ai trouvé " + tPP.getQuantite() + "kg de plastique en (" + tPP.getX() + ", " + tPP.getY() + ")");
+					}
+					travailleur.seDeplacer(i, j);
+					boolean collecteSucces = true;
+					while (collecteSucces) {
+						StatutReponse collecteResultat = travailleur.collecter();
+						if (collecteResultat.succes) {
+							System.out.println(collecteResultat.message);
+						}
+						collecteSucces = collecteResultat.succes;
+					}
+				}
+			}
+		}
+    }
+
+    public void removeTravailleurs() {
+        travailleurs.clear();
+    }
+
     public ArrayList<Plastique> ajouterLifeCycle(Terrain t) {
         for (int i = 0; i < t.nbLignes; i++) {
             for (int j = 0; j < t.nbColonnes; j++) {
@@ -62,19 +103,17 @@ public class Usine {
     public void allRecyclage(TravailleurUsine tU) {
         if (qteRecycle < qteMaxRecyclable) {
             tU.collecterPlastique();
-            for (PlastiquePolluant p :tU.getListeCollecter()) {
-                    ((PlastiquePolluant) p).recyclage();
-                    System.out.println(p.toString());
-                    qteRecycle++;
+            for (PlastiquePolluant p : tU.videCollecte()) {
+                ((PlastiquePolluant) p).recyclage();
+                System.out.println(p.toString());
+                qteRecycle++;
             }
         }
-        tU.resetQteCollecter();
     }
 
     public int getQteRecycle() {
         return qteRecycle;
     }
-
 
     public void allAugmenteAge() {
         for (Plastique p : this.liste_P) {
@@ -88,10 +127,8 @@ public class Usine {
         }
     }
 
-    
-
     @Override
     public String toString() {
-        return "On a trouvé " + qteP() + " plastiques dans le terrain dont "+ getQteRecycle() + "ont été recyclés ! ";
+        return "On a trouvé " + qteP() + " plastiques dans le terrain dont " + getQteRecycle() + "ont été recyclés ! ";
     }
 }

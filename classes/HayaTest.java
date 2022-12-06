@@ -1,7 +1,7 @@
 public class HayaTest {
     public static void main(String[] args) {
         Terrain t = new Terrain();
-        TravailleurUsine tU=new TravailleurUsine(t, 20);
+        TravailleurUsine tU=new TravailleurUsine(20, 20, t);
 
         // private int qtetDecomp = 0;//!!FOR SIMULATION
 
@@ -64,7 +64,7 @@ public class HayaTest {
 
         t.affiche(3);
 
-        Usine tab = new Usine(20);
+        Usine tab = new Usine(t, 20);
         tab.ajouterLifeCycle(t);
         System.out.println("La liste des "+tab.qteP()+" plastiques présents sur le terrain : \n");
         tab.afficheListe();

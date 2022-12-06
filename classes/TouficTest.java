@@ -74,7 +74,7 @@ public class TouficTest {
 		}
 		System.out.println("Ils ont collecté " + totalExtraction + "L en tout.");
 
-		Usine u = new Usine(20);
+		Usine u = new Usine(t, 20);
 		for (TechnicienPetrolier tp : tps) {
 			u.deposerPetrole(tp.videCollecte());
 		}
