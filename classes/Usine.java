@@ -59,19 +59,16 @@ public class Usine {
         return liste_P.size();
     }
 
-    public ArrayList<PlastiquePolluant> allRecyclage(Terrain t) {
-        ArrayList<PlastiquePolluant> res = new ArrayList<PlastiquePolluant>();
+    public void allRecyclage(TravailleurUsine tU) {
         if (qteRecycle < qteMaxRecyclable) {
-            for (Plastique p : this.liste_P) {
-                if (p instanceof PlastiquePolluant) {
-                    ((PlastiquePolluant) p).recyclage(t);
+            tU.collecterPlastique();
+            for (PlastiquePolluant p :tU.getListeCollecter()) {
+                    ((PlastiquePolluant) p).recyclage();
                     System.out.println(p.toString());
                     qteRecycle++;
-                    res.add((PlastiquePolluant) p);
-                }
             }
         }
-        return res;
+        tU.resetQteCollecter();
     }
 
     public int getQteRecycle() {
@@ -91,8 +88,10 @@ public class Usine {
         }
     }
 
+    
+
     @Override
     public String toString() {
-        return "On trouve " + qteP() + " plastiques dans le terrain dont "+ getQteRecycle() + "ont été recyclés ! ";
+        return "On a trouvé " + qteP() + " plastiques dans le terrain dont "+ getQteRecycle() + "ont été recyclés ! ";
     }
 }

@@ -1,6 +1,7 @@
 public class HayaTest {
     public static void main(String[] args) {
         Terrain t = new Terrain();
+        TravailleurUsine tU=new TravailleurUsine(t, 20);
 
         // private int qtetDecomp = 0;//!!FOR SIMULATION
 
@@ -59,9 +60,6 @@ public class HayaTest {
         pbd1.decomposition(t); pbd2.decomposition(t); pbd3.decomposition(t); pbd4.decomposition(t); 
 
         System.out.println(pbd1.toString()); System.out.println(pbd5.toString());
-
-        pp1.recyclage(t);pp2.recyclage(t); pp3.recyclage(t);pp4.recyclage(t);
-        System.out.println(pp1.toString()); System.out.println(pp2.toString());
         System.out.println("\n");
 
         t.affiche(3);
@@ -72,7 +70,7 @@ public class HayaTest {
         tab.afficheListe();
         System.out.println("\n");
 
-        tab.allRecyclage(t);
+        tab.allRecyclage(tU);
         System.out.println("\n");
         System.out.println("Terrain apres le recyclage des "+tab.getQteRecycle()+" plastiques polluants : \n");
         t.affiche(3);
