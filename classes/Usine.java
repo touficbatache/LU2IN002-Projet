@@ -16,7 +16,6 @@ public class Usine {
     private Terrain terrain;
 
     private ArrayList<TechnicienPetrolier> techniciens = new ArrayList<TechnicienPetrolier>();
-    private int qtePetrole = 0;
 
     private ArrayList<TravailleurUsine> travailleurs = new ArrayList<TravailleurUsine>();
 

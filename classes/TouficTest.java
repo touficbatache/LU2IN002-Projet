@@ -74,12 +74,12 @@ public class TouficTest {
 		}
 		System.out.println("Ils ont collecté " + totalExtraction + "L en tout.");
 
-		Usine u = new Usine(t, 20);
-		for (TechnicienPetrolier tp : tps) {
-			u.deposerPetrole(tp.videCollecte());
-		}
-		PlastiquePolluant pp = u.produirePlastique();
-		System.out.println(pp);
+		// Usine u = new Usine(t, 20);
+		// for (TechnicienPetrolier tp : tps) {
+		// 	u.deposerPetrole(tp.videCollecte());
+		// }
+		// PlastiquePolluant pp = u.produirePlastique();
+		// System.out.println(pp);
 	}
 
 	private static int randEntre(int min, int max) {
