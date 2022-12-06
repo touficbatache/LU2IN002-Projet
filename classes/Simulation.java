@@ -45,16 +45,25 @@ public class Simulation {
 		}
 		System.out.println("Ils ont collecté " + totalExtraction + "L en tout.\n");
         
-		for (TechnicienPetrolier tp : tps) {
-			u.deposerPetrole(tp.videCollecte());
-		}
         System.out.println("L'usine produit du plastique...");
-		PlastiquePolluant pp = u.produirePlastique();
-        int xPP = randEntre(5, 9);
-        int yPP = randEntre(0, 4);
-        pp.setPosition(xPP, yPP);
-        System.out.println(pp);
-        terrain.setCase(xPP, yPP, pp);
+		PlastiquePolluant pp1 = u.produirePlastique();
+        int xPP1 = randEntre(5, 9);
+        int yPP1 = randEntre(0, 4);
+        pp1.setPosition(xPP1, yPP1);
+        System.out.println(pp1);
+        terrain.setCase(xPP1, yPP1, pp1);
+		PlastiquePolluant pp2 = u.produirePlastique();
+        int xPP2 = randEntre(5, 9);
+        int yPP2 = randEntre(0, 4);
+        pp2.setPosition(xPP2, yPP2);
+        System.out.println(pp2);
+        terrain.setCase(xPP2, yPP2, pp2);
+		PlastiquePolluant pp3 = u.produirePlastique();
+        int xPP3 = randEntre(5, 9);
+        int yPP3 = randEntre(0, 4);
+        pp3.setPosition(xPP3, yPP3);
+        System.out.println(pp3);
+        terrain.setCase(xPP3, yPP3, pp3);
 		terrain.affiche(7);
 		System.out.println("Informations sur le terrain:\n" + terrain + "\n");
 
@@ -81,6 +90,24 @@ public class Simulation {
 		System.out.println("Ils ont collecté " + totalRamassage + "kg de plastique polluant en tout.\n");
 
         u.recyclerTout();
+		System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+		terrain.affiche(7);
+
+		u.jeterDansTerrain(terrain);
+		System.out.println("Du plastique biodégradable a été jetté dans l'eau \n");
+		System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+		terrain.affiche(7);
+
+		int qtetDecomp =0;
+		u.allAugmenteAge();
+		for(PlastiqueBioDegradable pbd : u.getListe_R()){
+			pbd.decomposition(terrain);
+			qtetDecomp++;
+		}
+
+		System.out.println(qtetDecomp+" plastiques biodegradables se sont décomposés \n");
+		System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+		terrain.affiche(7);
     }
 
     private static int randEntre(int min, int max) {

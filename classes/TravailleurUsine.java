@@ -63,6 +63,10 @@ public class TravailleurUsine extends Agent implements Collecteur {
         return liste;
     }
 
+    public ArrayList<PlastiquePolluant> getListeCollectes(){
+        return listeCollectes;
+    }
+
     @Override
     public String toString() {
         return super.toString() +
