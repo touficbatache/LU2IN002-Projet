@@ -45,9 +45,6 @@ public class Simulation {
 		}
 		System.out.println("Ils ont collecté " + totalExtraction + "L en tout.\n");
         
-		for (TechnicienPetrolier tp : tps) {
-			u.deposerPetrole(tp.videCollecte());
-		}
         System.out.println("L'usine produit du plastique...");
 		PlastiquePolluant pp = u.produirePlastique();
         int xPP = randEntre(5, 9);

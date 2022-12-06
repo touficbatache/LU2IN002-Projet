@@ -37,6 +37,10 @@ public class Usine {
         techniciens.addAll(tps);
     }
 
+    /**
+     * Fait parcourir le terrain aux Téchniciens Pétroliers, qui collectent du
+     * pétrole s'ils en trouvent.
+     */
     public void runTechniciens() {
         for (TechnicienPetrolier technicien : techniciens) {
             System.out.println("\nLe Téchnicien numéro " + technicien.ident + " parcourt le terrain.");
@@ -69,25 +73,26 @@ public class Usine {
     }
 
     /**
-     * Depose le pétrole dans l'usine pour qu'il puisse être recyclé par la suite.
+     * Vide la totalité du pétrole stocké dans les barrils des téchniciens.
      * 
-     * @param qte la quantité de pétrole à déposer
-     * 
+     * @return le volume de pétrole total extrait par les téchniciens
      */
-    public void deposerPetrole(int qte) {
-        qtePetrole += qte;
+    public int videExtractionPetrole() {
+        int totalExtraction = 0;
+		for (TechnicienPetrolier tp : techniciens) {
+			totalExtraction += tp.videCollecte();
+		}
+        return totalExtraction;
     }
 
     /**
-     * Produit du plastique à partir du pétrole déposé auparavant dans l'usine.
+     * Produit du plastique polluant à partir du pétrole déposé auparavant dans l'usine.
      * 
      * @return le plastique polluant produit
      * 
      */
     public PlastiquePolluant produirePlastique() {
-        int qte = qtePetrole;
-        qtePetrole = 0;
-        return new PlastiquePolluant((int) (qte / 100.0));
+        return new PlastiquePolluant((int) (videExtractionPetrole() / 100.0));
     }
 
     public ArrayList<TravailleurUsine> getTravailleurs() {
@@ -98,6 +103,10 @@ public class Usine {
         travailleurs.addAll(tus);
     }
 
+    /**
+     * Fait parcourir le terrain aux Travailleurs d'usine, qui collectent du
+     * plastique polluant s'ils en trouvent.
+     */
     public void runTravailleurs() {
         for (TravailleurUsine travailleur : travailleurs) {
             System.out.println("\nLe Travailleur numéro " + travailleur.ident + " parcourt le terrain.");
@@ -129,7 +138,7 @@ public class Usine {
         travailleurs.clear();
     }
     
-    public ArrayList<PlastiquePolluant> videRamassage() {
+    public ArrayList<PlastiquePolluant> videRamassagePlastique() {
         ArrayList<PlastiquePolluant> liste = new ArrayList<PlastiquePolluant>();
 		for (TravailleurUsine tu : travailleurs) {
 			liste.addAll(tu.videCollecte());
@@ -142,7 +151,7 @@ public class Usine {
             return;
         }
 
-        for (PlastiquePolluant pp : videRamassage()) {
+        for (PlastiquePolluant pp : videRamassagePlastique()) {
             pp.recyclage();
             System.out.println(pp.toString());
             qteRecycle++;
