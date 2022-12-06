@@ -1,7 +1,11 @@
+import java.util.ArrayList;
+
 public class HayaTest {
     public static void main(String[] args) {
         Terrain t = new Terrain();
-        TravailleurUsine tU=new TravailleurUsine(20, 20, t);
+        TravailleurUsine tU=new TravailleurUsine(50, 50, t);
+        ArrayList<TravailleurUsine> lu=new ArrayList<TravailleurUsine>();
+        lu.add(tU);
 
         // private int qtetDecomp = 0;//!!FOR SIMULATION
 
@@ -70,7 +74,9 @@ public class HayaTest {
         tab.afficheListe();
         System.out.println("\n");
 
-        tab.allRecyclage(tU);
+        tab.addTravailleurs(lu);
+        tab.runTravailleurs();
+        tab.recyclerTout();
         System.out.println("\n");
         System.out.println("Terrain apres le recyclage des "+tab.getQteRecycle()+" plastiques polluants : \n");
         t.affiche(3);

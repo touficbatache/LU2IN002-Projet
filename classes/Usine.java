@@ -23,6 +23,7 @@ public class Usine {
     private int qteRecycle = 0;
     private int qteMaxRecyclable;
     private ArrayList<Plastique> liste_P = new ArrayList<Plastique>();
+    private ArrayList<PlastiqueBioDegradable> liste_R= new ArrayList<PlastiqueBioDegradable>();
 
     public Usine(Terrain terrain, int qteMaxRecyclable) {
         this.terrain = terrain;
@@ -143,7 +144,7 @@ public class Usine {
         }
 
         for (PlastiquePolluant pp : videRamassage()) {
-            pp.recyclage();
+            liste_R.add(pp.recyclage());
             System.out.println(pp.toString());
             qteRecycle++;
         }
@@ -160,23 +161,22 @@ public class Usine {
         return liste_P;
     }
 
+    public void jeterDansTerrain(Terrain t){
+        for(PlastiqueBioDegradable p : liste_R){
+            t.setCase((int)Math.random()*t.nbLignes+1, (int)Math.random()*t.nbColonnes+1, p);
+        }
+    }
+
     public int qteP() {
         return liste_P.size();
     }
 
-    public void allRecyclage(TravailleurUsine tU) {
-        if (qteRecycle < qteMaxRecyclable) {
-            tU.collecterPlastique();
-            for (PlastiquePolluant p : tU.videCollecte()) {
-                ((PlastiquePolluant) p).recyclage();
-                System.out.println(p.toString());
-                qteRecycle++;
-            }
-        }
-    }
-
     public int getQteRecycle() {
         return qteRecycle;
+    }
+
+    public ArrayList<PlastiqueBioDegradable> getListe_R(){
+        return liste_R;
     }
 
     public void allAugmenteAge() {
