@@ -62,7 +62,7 @@ public class TravailleurUsine extends Agent implements Collecteur {
 
     @Override
     public boolean estPlein() {
-        return getQuantiteCollectee() >= capaciteDeStockage;
+        return getQuantiteCollectee() >= getCapaciteDeStockage();
     }
 
     @Override
