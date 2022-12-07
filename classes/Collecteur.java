@@ -9,13 +9,13 @@
  */
 
 public interface Collecteur {
-    public StatutReponse collecter();
+    StatutReponse collecter();
 
-    public int getCapaciteDeStockage();
+    int getCapaciteDeStockage();
 
-    public int getQuantiteCollectee();
+    int getQuantiteCollectee();
 
-    public boolean estPlein();
+    boolean estPlein();
 
-    public int videCollecte();
+    int videCollecte();
 }
