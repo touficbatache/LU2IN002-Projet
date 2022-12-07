@@ -35,7 +35,7 @@ public class PlastiqueBioDegradable extends Plastique {
 
     /**
      * Renvoie des informations sur le plastique biodégradable
-     * @return l'ID et la quantité du plastique biodégradable, s'il est présent sur le terrain et ses coordonnées si oui, et si le plastique s'est décomposé ou non
+     * @return l'ID, la quantité du plastique biodégradable, s'il est présent sur le terrain et ses coordonnées si oui, et si le plastique s'est décomposé ou non
      */
     @Override
     public String toString() {

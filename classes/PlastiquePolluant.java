@@ -9,18 +9,32 @@
  * 
  */
 
+ 
 public class PlastiquePolluant extends Plastique {
     private boolean estRecycle = false;
 
+    
+    /**
+     * Constructeur qui initialise la quantité du plastique polluant
+     * @param qte quantité du plastique polluant
+     */
     public PlastiquePolluant(int qte) {
         super("PP", qte);
     }
 
+    /**
+     * recylce le plastique polluant en le transformant en plastique biodégradable
+     * @return le nouveau plastique biodégradable
+     */
     public PlastiqueBioDegradable recyclage() {
         estRecycle = true;
         return new PlastiqueBioDegradable(getQuantite());
     }
 
+    /**
+     * Renvoie des informations sur le plastique polluant
+     * @return l'ID, la quantité du plastique polluant, et s'il a été recyclé
+     */
     @Override
     public String toString() {
         String s = super.toString();
