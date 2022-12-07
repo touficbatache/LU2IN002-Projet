@@ -8,6 +8,10 @@
  */
 
 public class Petrole extends Ressource {
+    /**
+     * Constructeur qui initialise la quantité de pétrole
+     * @param quantite quantité de pétrole
+     */
     public Petrole(int quantite) {
         super("Pétrole", quantite);
     }
