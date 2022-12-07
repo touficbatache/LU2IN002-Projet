@@ -17,7 +17,7 @@ public abstract class Agent {
     private int posY;
 
 /**
- * Constructeur qui initiliase le type de l'agent et le terrain sur lequel il se trouve
+ * Constructeur qui initialise le type de l'agent et le terrain sur lequel il se trouve
  * Affection du numéro ID unique
  * @param type type d'Agent
  * @param t terrain sur lequel se trouve l'Agent
@@ -29,15 +29,15 @@ public abstract class Agent {
     }
 
     /**
-     * permet d'avoir acces au terrain sur lequel se trouve l'Agent
-     * @return  le terrain sur lequel se trouve l'Agent
+     * Permet d'avoir accès au terrain sur lequel se trouve l'Agent
+     * @return le terrain sur lequel se trouve l'Agent
      */
     protected Terrain getTerrain() {
         return terrain;
     }
 
     /**
-     * permet d'avoir acces a la ligne sur laquelle se trouve l'Agent
+     * Permet d'avoir accès à la ligne sur laquelle se trouve l'Agent
      * @return la ligne sur laquelle se trouve l'Agent
      */
     protected int getPosX() {
@@ -45,15 +45,15 @@ public abstract class Agent {
     }
 
     /**
-     * permet d'avoir acces a la colonne sur laquelle se trouve l'Agent
-     * @return  la colonne sur laquelle se trouve l'Agent
+     * Permet d'avoir accès a la colonne sur laquelle se trouve l'Agent
+     * @return la colonne sur laquelle se trouve l'Agent
      */
     protected int getPosY() {
         return posY;
     }
 
     /**
-     * calcule la distance entre l'Agent et une case donnée
+     * Calcule la distance entre l'Agent et une case donnée
      * @param x abscisse de la case concernée
      * @param y ordonnée de la case concernée
      * @return la distance entre l'Agent et la case concernée
@@ -63,7 +63,7 @@ public abstract class Agent {
     }
 
     /**
-     * vérifie si les coordonnées sont présentes sur le terrain et déplace l'Agent dans la nouvelle case  si possible
+     * Vérifie si les coordonnées sont présentes sur le terrain et déplace l'Agent dans la nouvelle case si possible
      * @param xnew nouvelle abscisse
      * @param ynew nouvelle ordonnée
      * @return si l'Agent a été déplacé dans la nouvelle case

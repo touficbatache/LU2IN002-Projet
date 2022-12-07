@@ -1,6 +1,6 @@
 /**
  *
- * Plastique bio-dégradable qui se décompose dans l'eau après
+ * Plastique biodégradable qui se décompose dans l'eau après
  * un bout de temps, contrairement au {@link PlastiquePolluant}
  * qui a besoin d'être ramassé par un {@link TravailleurUsine}.
  *
@@ -21,7 +21,7 @@ public class PlastiqueBioDegradable extends Plastique {
     }
 
     /**
-     * vérifie si assez de temps est passé pour que le plastique biodégradable se décompose et réalise la décomposition 
+     * Vérifie si assez de temps est passé pour que le plastique biodégradable se décompose et réalise la décomposition
      * @param t Terrain sur lequel se trouve le plastique
      */
     public void decomposition(Terrain t) {

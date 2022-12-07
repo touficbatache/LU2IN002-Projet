@@ -12,25 +12,25 @@ public abstract class Plastique extends Ressource {
     private int age;
 
     /**
-     * Constructeur qui initialise le type du plastique et sa quantité. Au moment de création,l'âge est 0 par défaut
+     * Constructeur qui initialise le type du plastique et sa quantité. Au moment de création, l'âge est 0 par défaut
      * @param type type du plastique
      * @param qte quantité du plastique
      */
     public Plastique(String type, int qte) {
         super(type, qte);
-        age = 0; // a l'instant du depot ou de crwation
+        age = 0; // à l'instant du dépôt ou de création
     }
 
     /**
-     * permet d'avoir acces a l'âge du plastique
-     * @return l'âge du plastqiue
+     * Permet d'avoir accès à l'âge du plastique
+     * @return l'âge du plastique
      */
     public int getAge() {
         return age;
     }
 
     /**
-     * augmente l'âge du plastique d'un an
+     * Augmente l'âge du plastique d'un an
      */
     public void augmenteAge() {
         age++;
