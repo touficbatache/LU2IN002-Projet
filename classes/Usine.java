@@ -20,7 +20,6 @@ public class Usine {
 
     private int qteRecycle = 0;
     private int qteMaxRecyclable;
-    private ArrayList<Plastique> liste_P = new ArrayList<Plastique>();
 
     public Usine(Terrain terrain, int qteMaxRecyclable) {
         this.terrain = terrain;
@@ -172,34 +171,12 @@ public class Usine {
         return pbds;
     }
 
-    public ArrayList<Plastique> ajouterLifeCycle(Terrain t) {
-        for (int i = 0; i < t.nbLignes; i++) {
-            for (int j = 0; j < t.nbColonnes; j++) {
-                if (t.getCase(i, j) instanceof Plastique) {
-                    liste_P.add((Plastique) t.getCase(i, j));
-                }
-            }
-        }
-        return liste_P;
-    }
-
-    public int qteP() {
-        return liste_P.size();
-    }
-
     public int getQteRecycle() {
         return qteRecycle;
     }
 
-    public void afficheListe() {
-        for (Plastique p : liste_P) {
-            System.out.println(p.toString() + "\t");
-        }
-    }
-
     @Override
     public String toString() {
-        return "On a trouvé " + qteP() + "kg de plastique polluant sur le terrain" +
-        " dont " + getQteRecycle() + "kg ont été recyclés ! ";
+        return getQteRecycle() + "kg de plastique polluant ont été recyclés !";
     }
 }
