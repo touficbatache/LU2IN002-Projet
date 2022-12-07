@@ -1,11 +1,11 @@
 /**
  *
+ * Plastique bio-dégradable qui se décompose dans l'eau après
+ * un bout de temps, contrairement au {@link PlastiquePolluant}
+ * qui a besoin d'être ramassé par un {@link TravailleurUsine}.
+ *
  * @author Toufic BATACHE (LU2IN002 2022dec)
  * @author Haya MAMLOUK (LU2IN002 2022dec)
- *
- * Plastique bio-dégradable qui se décompose dans l'eau après
- * un bout de temps, contrairement au {@PlastiquePolluant}
- * qui a besoin d'être ramassé par un {@TravailleurUsine}.
  * 
  */
 

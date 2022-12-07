@@ -1,11 +1,11 @@
 /**
- *
- * @author Toufic BATACHE (LU2IN002 2022dec)
- * @author Haya MAMLOUK (LU2IN002 2022dec)
  * 
  * Représentation d'un Technicien Pétrolier, agent qui parcourt le terrain
  * et collecte du pétrole dans des barils lorsqu'il en trouve. Il peut aussi
  * transformer ses réserves en plastique.
+ *
+ * @author Toufic BATACHE (LU2IN002 2022dec)
+ * @author Haya MAMLOUK (LU2IN002 2022dec)
  *
  */
 

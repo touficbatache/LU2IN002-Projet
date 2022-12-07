@@ -1,10 +1,10 @@
 /**
  *
+ * Classe mère des plastiques polluant et bio-dégradable.
+ * Classes filles sont {@link PlastiquePolluant} et {@link PlastiqueBioDegradable}.
+ *
  * @author Toufic BATACHE (LU2IN002 2022dec)
  * @author Haya MAMLOUK (LU2IN002 2022dec)
- *
- * Classe mère des plastiques polluant et bio-dégradable.
- * Classes filles sont {@PlastiquePolluant} et {@PlastiqueBioDegradable}.
  * 
  */
 

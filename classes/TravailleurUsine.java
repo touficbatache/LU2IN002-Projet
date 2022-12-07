@@ -1,12 +1,12 @@
 /**
  *
- * @author Toufic BATACHE (LU2IN002 2022dec)
- * @author Haya MAMLOUK (LU2IN002 2022dec)
- * 
  * Représentation d'un Travailleur à l'usine, agent qui parcourt le terrain,
  * ramasse et stocke du plastique polluant lorsqu'il en trouve. Il peut aussi
  * transformer ses réserves en plastique bio-dégradable.
  *
+ * @author Toufic BATACHE (LU2IN002 2022dec)
+ * @author Haya MAMLOUK (LU2IN002 2022dec)
+ * 
  */
 
 public class TravailleurUsine extends Agent implements Collecteur {

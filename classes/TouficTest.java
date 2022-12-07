@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class TouficTest {
 
 	/**
-	 * @param args
+	 * @param args arguments
 	 */
 	public static void main(String[] args) {
 		Terrain t = new Terrain(10, 10);

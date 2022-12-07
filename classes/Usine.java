@@ -1,11 +1,11 @@
 /**
  *
+ * Usine qui gère le terrain. Elle contient et modifie plusieurs transformations :
+ * - la création du plastique à partir du pétrole,
+ * - le recyclage du plastique polluant en plastique bio-dégradable.
+ *
  * @author Toufic BATACHE (LU2IN002 2022dec)
  * @author Haya MAMLOUK (LU2IN002 2022dec)
- *
- * Usine qui gère plusieurs transformations :
- * - la création du plastique à partir du pétrole,
- * - le recyclage du plastique polluant en plastique bio-dégradable
  * 
  */
 

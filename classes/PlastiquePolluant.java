@@ -1,11 +1,11 @@
 /**
  *
+ * Plastique polluant qui ne se décompose pas dans l'eau
+ * tout seul. Il est ramassé par les {@link TravailleurUsine}
+ * pour être recyclé en {@link PlastiqueBioDegradable}.
+ *
  * @author Toufic BATACHE (LU2IN002 2022dec)
  * @author Haya MAMLOUK (LU2IN002 2022dec)
- *
- * Plastique polluant qui ne se décompose pas dans l'eau
- * tout seul. Il est ramassé par les {@TravailleurUsine}
- * pour être recyclé en {@PlastiqueBioDegradable}.
  * 
  */
 
