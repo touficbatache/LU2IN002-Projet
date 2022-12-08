@@ -23,7 +23,7 @@ public class PlastiquePolluant extends Plastique {
     }
 
     /**
-     * recylce le plastique polluant en le transformant en plastique biodégradable
+     * Recylce le plastique polluant en le transformant en plastique biodégradable
      * @return le nouveau plastique biodégradable
      */
     public PlastiqueBioDegradable recyclage() {

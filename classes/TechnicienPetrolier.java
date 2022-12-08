@@ -15,6 +15,13 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
     private int nbBarrils;
     private int qteCollectee;
 
+    /**
+     * Constructeur qui initialise les différentes capacités du TechnicienPetrolier ainsi le terrain sur lequel il se trouve et le nombre de barrils
+     * @param capaciteDeCollecte capacité de pétrole que peut collecter le TechnicienPetrolier
+     * @param capaciteDeBarril la capacité des barrils
+     * @param nbBarrils le nombre de barrils
+     * @param t Terrain sur lequel se trouve le TechnicienPetrolier
+     */
     public TechnicienPetrolier(int capaciteDeCollecte, int capaciteDeBarril, int nbBarrils, Terrain t) {
         super("TechnicienPetrolier", t);
 
@@ -24,6 +31,10 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
         this.qteCollectee = 0;
     }
 
+    /**
+     * Collecte du pétrole si la Ressource est présente dans la même case que le TechnicienPetrolier et si ce dernier possède la capcité de collecter
+     * @return le StatutReponse de la méthode 
+     */
     @Override
     public StatutReponse collecter() {
         if (estPlein()) {
@@ -57,6 +68,7 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
         return capaciteDeBarril * nbBarrils;
     }
 
+
     @Override
     public int getQuantiteCollectee() {
         return qteCollectee;
@@ -74,6 +86,10 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
         return qte;
     }
 
+    /**
+     * Renvoie des informations sur le TechinicienPetrolier
+     * @return l'ID et la position du TechnicienPetrolier, le nombre de barrils et leur capacité de stockage, la capacité de collecte et la quantité collectée
+     */
     @Override
     public String toString() {
         return super.toString()
