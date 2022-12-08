@@ -14,7 +14,7 @@ public abstract class Agent {
     private int posY;
 
     /**
-     * Constructeur qui initialise le type de l'agent et le terrain sur lequel il se trouve
+     * Constructeur qui initialise l'agent avec un type et un terrain
      * Affection du numéro ID unique
      *
      * @param type type d'Agent

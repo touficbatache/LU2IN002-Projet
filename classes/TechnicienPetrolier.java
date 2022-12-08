@@ -7,27 +7,20 @@
  * @author Haya MAMLOUK (LU2IN002 2022dec)
  */
 
-public class TechnicienPetrolier extends Agent implements Collecteur {
-    private final int capaciteDeCollecte;
-    private final int capaciteDeBaril;
-    private final int nbBarils;
-    private int qteCollectee;
-
+public class TechnicienPetrolier extends Collecteur {
+    private int nbBarils;
     /**
-     * Constructeur qui initialise les différentes capacités du TechnicienPetrolier ainsi le terrain sur lequel il se trouve et le nombre de barils
+     * Constructeur qui initialise la capacité de collecte et de stockage du TechnicienPetrolier
      *
      * @param capaciteDeCollecte capacité de pétrole que peut collecter le TechnicienPetrolier
      * @param capaciteDeBaril    la capacité des barils
      * @param nbBarils           le nombre de barils
-     * @param t                  Terrain sur lequel se trouve le TechnicienPetrolier
+     * @param t                  terrain sur lequel se trouve le TechnicienPetrolier
      */
     public TechnicienPetrolier(int capaciteDeCollecte, int capaciteDeBaril, int nbBarils, Terrain t) {
-        super("TechnicienPetrolier", t);
+        super("TechnicienPetrolier", t, capaciteDeCollecte, capaciteDeBaril * nbBarils);
 
-        this.capaciteDeCollecte = capaciteDeCollecte;
-        this.capaciteDeBaril = capaciteDeBaril;
         this.nbBarils = nbBarils;
-        this.qteCollectee = 0;
     }
 
     /**
@@ -37,63 +30,14 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
      * @throws Exception s'il n'y a plus de place pour stocker le pétrole
      */
     @Override
-    public int collecter() throws Exception {
+    public boolean verifierCollectePossible() throws Exception {
         if (estPlein()) throw new Exception("Je ne peux pas stocker plus de pétrole avec moi.");
 
         Ressource ressourceACollecter = getTerrain().getCase(getPosX(), getPosY());
 
-        // Pas de ressource sur cette case ou la ressource n'est pas du pétrole.
-        if (!(ressourceACollecter instanceof Petrole)) return -1;
-
-        int aCollecter = Math.min(Math.min(ressourceACollecter.getQuantite(), capaciteDeCollecte), getCapaciteDeStockage() - qteCollectee);
-        ressourceACollecter.setQuantite(ressourceACollecter.getQuantite() - aCollecter);
-        if (ressourceACollecter.getQuantite() == 0) {
-            getTerrain().videCase(ressourceACollecter.getX(), ressourceACollecter.getY());
-        }
-        qteCollectee += aCollecter;
-        return aCollecter;
-    }
-
-    /**
-     * Renvoie la capacité de stockage de pétrole du technicien pétrolier.
-     *
-     * @return la capacité de stockage de pétrole
-     */
-    @Override
-    public int getCapaciteDeStockage() {
-        return capaciteDeBaril * nbBarils;
-    }
-
-    /**
-     * Renvoie la quantité de pétrole collectée par le technicien pétrolier.
-     *
-     * @return la quantité de pétrole collectée
-     */
-    @Override
-    public int getQuantiteCollectee() {
-        return qteCollectee;
-    }
-
-    /**
-     * Renvoie si le stockage est plein ou pas.
-     *
-     * @return si le stockage est plein, ne peut plus stocker plus de pétrole
-     */
-    @Override
-    public boolean estPlein() {
-        return qteCollectee >= getCapaciteDeStockage();
-    }
-
-    /**
-     * Renvoie la quantité extraite et la réinitialise.
-     *
-     * @return la quantité de pétrole extraite
-     */
-    @Override
-    public int videCollecte() {
-        int qte = qteCollectee;
-        qteCollectee = 0;
-        return qte;
+        // S'il n'y a pas de ressource sur cette case ou la ressource n'est pas du pétrole,
+        // on retourne false.
+        return ressourceACollecter instanceof Petrole;
     }
 
     /**
@@ -105,7 +49,7 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
     @Override
     public String toString() {
         return super.toString()
-                + " J'ai " + nbBarils + " barils qui, réunis, peuvent contenir " + getCapaciteDeStockage() + "L de pétrole."
-                + " À chaque collecte, je peux extraire " + capaciteDeCollecte + "L seulement et j'en ai déjà " + qteCollectee + "L.";
+                + " J'ai " + nbBarils + " barils qui, réunis, peuvent contenir " + capaciteDeStockage + "L de pétrole."
+                + " À chaque collecte, je peux extraire " + capaciteDeCollecte + "L seulement et j'en ai déjà " + getQuantiteCollectee() + "L.";
     }
 }

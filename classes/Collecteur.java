@@ -6,40 +6,93 @@
  * @author Haya MAMLOUK (LU2IN002 2022dec)
  */
 
-public interface Collecteur {
-    /**
-     * Permet de collecter la ressource qui peut se trouver dans la même case de l'agent collecteur.
-     *
-     * @return le volume collecté
-     * @throws Exception si la collecte n'est pas possible
-     */
-    int collecter() throws Exception;
+public abstract class Collecteur extends Agent {
+    protected final int capaciteDeCollecte;
+    protected final int capaciteDeStockage;
+    private int qteCollectee;
 
     /**
-     * Renvoie la capacité de stockage par l'agent.
+     * Constructeur qui initialise l'agent collecteur avec un type et un terrain
      *
-     * @return la capacité de stockage
+     * @param type type d'Agent
+     * @param t    terrain sur lequel se trouve l'Agent
      */
-    int getCapaciteDeStockage();
+    public Collecteur(String type, Terrain t, int capaciteDeCollecte, int capaciteDeStockage) {
+        super(type, t);
+
+        this.capaciteDeCollecte = capaciteDeCollecte;
+        this.capaciteDeStockage = capaciteDeStockage;
+        this.qteCollectee = 0;
+    }
+
+    /**
+     * Permet de tester si la collecte est possible ou pas.
+     *
+     * @return si la collecte est possible
+     * @throws Exception si la collecte n'est pas possible pour une raison fatale
+     */
+    public abstract boolean verifierCollectePossible() throws Exception;
+
+    /**
+     * Permet de collecter la ressource qui peut se trouver dans la même case de l'agent collecteur
+     *
+     * @param ressource ressource à collecter
+     * @return le volume de la collecte
+     */
+    public int collecter() throws Exception {
+        if (!verifierCollectePossible()) {
+            return -1;
+        }
+
+        Ressource ressource = getTerrain().getCase(getPosX(), getPosY());
+        int aCollecter = Math.min(Math.min(ressource.getQuantite(), capaciteDeCollecte), capaciteDeStockage - getQuantiteCollectee());
+        ressource.setQuantite(ressource.getQuantite() - aCollecter);
+        if (ressource.getQuantite() == 0) {
+            getTerrain().videCase(ressource.getX(), ressource.getY());
+        }
+        qteCollectee += aCollecter;
+        return aCollecter;
+    }
 
     /**
      * Renvoie la quantité collectée par l'agent.
      *
      * @return la quantité collectée
      */
-    int getQuantiteCollectee();
+    public int getQuantiteCollectee() {
+        return qteCollectee;
+    }
 
     /**
      * Renvoie si le stockage de l'agent est plein ou pas.
      *
      * @return si la quantité collectée est supérieure ou égale à la capacité de stockage
      */
-    boolean estPlein();
+    public boolean estPlein() {
+        return qteCollectee >= capaciteDeStockage;
+    }
 
     /**
      * Renvoie la quantité collectée par l'agent et la réinitialise.
      *
      * @return la quantité collectée
      */
-    int videCollecte();
+    public int videCollecte() {
+        int qte = qteCollectee;
+        qteCollectee = 0;
+        return qte;
+    }
+
+    /**
+     * Renvoie les infos relatives au collecteur.
+     *
+     * @return les infos relatives au collecteur.
+     */
+    @Override
+    public String toString() {
+        return super.toString() +
+                " Je peux stocker " + capaciteDeStockage + "kg avec moi." +
+                " À chaque collecte, je peux ramasser " + capaciteDeCollecte + "kg" +
+                " et j'ai déjà " + getQuantiteCollectee() + "kg sur moi.";
+    }
 }

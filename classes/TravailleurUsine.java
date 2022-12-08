@@ -7,24 +7,16 @@
  * @author Haya MAMLOUK (LU2IN002 2022dec)
  */
 
-public class TravailleurUsine extends Agent implements Collecteur {
-    private final int capaciteDeCollecte;
-    private final int capaciteDeStockage;
-    private int qteCollectee;
-
+public class TravailleurUsine extends Collecteur {
     /**
-     * Constructeur qui initialise la capacité de collecte et de stockage du TravailleurUsine ainsi que le Terrain sur lequel il se trouve
+     * Constructeur qui initialise la capacité de collecte et de stockage du TravailleurUsine
      *
      * @param capaciteDeCollecte capacité de collecte du TravailleurUsine
      * @param capaciteDeStockage capacité de stockage du TravailleurUsine
-     * @param t                  Terrain sur lequel se trouve le TravailleurUsine
+     * @param t                  terrain sur lequel se trouve le TravailleurUsine
      */
     public TravailleurUsine(int capaciteDeCollecte, int capaciteDeStockage, Terrain t) {
-        super("TravailleurUsine", t);
-
-        this.capaciteDeCollecte = capaciteDeCollecte;
-        this.capaciteDeStockage = capaciteDeStockage;
-        this.qteCollectee = 0;
+        super("TravailleurUsine", t, capaciteDeCollecte, capaciteDeStockage);
     }
 
     /**
@@ -34,67 +26,16 @@ public class TravailleurUsine extends Agent implements Collecteur {
      * @throws Exception s'il n'y a plus de place pour stocker le plastique
      */
     @Override
-    public int collecter() throws Exception {
+    public boolean verifierCollectePossible() throws Exception {
         if (estPlein())
             throw new Exception("Je ne peux pas stocker plus de plastique avec moi. Besoin de déposer à l'usine.");
 
         Ressource ressourceACollecter = getTerrain().getCase(getPosX(), getPosY());
 
-        if (!(ressourceACollecter instanceof PlastiquePolluant)) return -1;
-
-        if (!((PlastiquePolluant) ressourceACollecter).estRecyclagePossible()) {
-            return -1;
-        }
-
-        int aCollecter = Math.min(Math.min(ressourceACollecter.getQuantite(), capaciteDeCollecte), getCapaciteDeStockage() - qteCollectee);
-        ressourceACollecter.setQuantite(ressourceACollecter.getQuantite() - aCollecter);
-        if (ressourceACollecter.getQuantite() == 0) {
-            getTerrain().videCase(ressourceACollecter.getX(), ressourceACollecter.getY());
-        }
-        qteCollectee += aCollecter;
-        return aCollecter;
-    }
-
-    /**
-     * Renvoie la capacité de stockage de pétrole du travailleur.
-     *
-     * @return la capacité de stockage de pétrole
-     */
-    @Override
-    public int getCapaciteDeStockage() {
-        return capaciteDeStockage;
-    }
-
-    /**
-     * Renvoie la quantité de plastique polluant collectée par le travailleur.
-     *
-     * @return la quantité de plastique polluant collectée
-     */
-    @Override
-    public int getQuantiteCollectee() {
-        return qteCollectee;
-    }
-
-    /**
-     * Renvoie si le stockage est plein ou pas.
-     *
-     * @return si le stockage est plein, ne peut plus stocker plus de pétrole
-     */
-    @Override
-    public boolean estPlein() {
-        return qteCollectee >= getCapaciteDeStockage();
-    }
-
-    /**
-     * Renvoie la quantité collectée et la réinitialise.
-     *
-     * @return la quantité de plastique polluant collectée
-     */
-    @Override
-    public int videCollecte() {
-        int qte = qteCollectee;
-        qteCollectee = 0;
-        return qte;
+        // S'il n'y a pas de ressource sur cette case ou la ressource n'est pas du pétrole, ou
+        // si le recyclage n'est pas possible, on retourne false.
+        return ressourceACollecter instanceof PlastiquePolluant &&
+                ((PlastiquePolluant) ressourceACollecter).estRecyclagePossible();
     }
 
     /**
@@ -106,8 +47,8 @@ public class TravailleurUsine extends Agent implements Collecteur {
     @Override
     public String toString() {
         return super.toString() +
-                " Je peux stocker " + getCapaciteDeStockage() + "kg de plastique avec moi." +
+                " Je peux stocker " + capaciteDeStockage + "kg de plastique avec moi." +
                 " À chaque collecte, je peux ramasser " + capaciteDeCollecte + "kg de plastique polluant" +
-                " et j'en ai déjà " + qteCollectee + "kg sur moi.";
+                " et j'en ai déjà " + getQuantiteCollectee() + "kg sur moi.";
     }
 }
