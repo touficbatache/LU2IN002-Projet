@@ -1,5 +1,4 @@
 /**
- *
  * Simulation du terrain. Elle contient et modifie plusieurs transformations :
  * -la création d'une liste de TechnicienPetrolier
  * -la création d'une liste de TravailleurUsine
@@ -10,7 +9,6 @@
  *
  * @author Toufic BATACHE (LU2IN002 2022dec)
  * @author Haya MAMLOUK (LU2IN002 2022dec)
- * 
  */
 
 import java.util.ArrayList;
@@ -22,14 +20,14 @@ public class Simulation {
 
     private ArrayList<TravailleurUsine> travailleurs = new ArrayList<TravailleurUsine>();
 
-    private ArrayList<PlastiqueBioDegradable> pbds= new ArrayList<PlastiqueBioDegradable>();
+    private ArrayList<PlastiqueBioDegradable> pbds = new ArrayList<PlastiqueBioDegradable>();
 
     private ArrayList<PlastiquePolluant> pps = new ArrayList<PlastiquePolluant>();
 
     private int qteRecycle = 0;
     private int qteMaxRecyclable;
     private int totalExtraction = 0;
-    private int totalRamassage=0;
+    private int totalRamassage = 0;
 
     private int nbTPs;
     private int nbPetrole;
@@ -52,7 +50,7 @@ public class Simulation {
         techniciens.addAll(tps);
     }
 
-    public void createTechniciens(){
+    public void createTechniciens() {
         for (int i = 0; i < nbTPs; i++) {
             int capaciteDeCollecte = randEntre(20, 40);
             int capaciteDeBarril = randEntre(30, 50);
@@ -61,7 +59,7 @@ public class Simulation {
             System.out.println(techniciens.get(i));
         }
     }
-    
+
 
     /**
      * Fait parcourir le terrain aux Téchniciens Pétroliers, qui collectent du
@@ -90,7 +88,7 @@ public class Simulation {
             }
 
             terrain.affiche(7);
-		    System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+            System.out.println("Informations sur le terrain:\n" + terrain + "\n");
         }
     }
 
@@ -98,7 +96,7 @@ public class Simulation {
         techniciens.clear();
     }
 
-    public void createPetrole(){
+    public void createPetrole() {
         for (int i = 0; i < nbPetrole; i++) {
             int x = randEntre(0, 4);
             int y = randEntre(5, 9);
@@ -109,7 +107,7 @@ public class Simulation {
         }
     }
 
-    public void extractionPetrole(){
+    public void extractionPetrole() {
         for (TechnicienPetrolier tp : getTechniciens()) {
             System.out.println(tp);
             totalExtraction += tp.getQuantiteCollectee();
@@ -118,20 +116,20 @@ public class Simulation {
 
     /**
      * Vide la totalité du pétrole stocké dans les barrils des téchniciens.
-     * 
+     *
      * @return le volume de pétrole total extrait par les téchniciens
      */
     public int videExtractionPetrole() {
-        int qteTotalExtraction=totalExtraction;
+        int qteTotalExtraction = totalExtraction;
         totalExtraction = 0;
         return qteTotalExtraction;
     }
 
     /**
      * Produit du plastique polluant à partir du pétrole déposé auparavant dans l'usine.
-     * 
+     *
      * @return le plastique polluant produit
-     * 
+     *
      */
     public void produirePlastique() {
         // TODO: throw some exception if no petrole in stock
@@ -146,7 +144,7 @@ public class Simulation {
         }
     }
 
-    public void setPPS(){
+    public void setPPS() {
         for (PlastiquePolluant pp : pps) {
             int x = randEntre(5, 9);
             int y = randEntre(0, 4);
@@ -164,8 +162,8 @@ public class Simulation {
         travailleurs.addAll(tus);
     }
 
-    public void createTravailleurs(){
-        
+    public void createTravailleurs() {
+
         for (int i = 0; i < nbTUs; i++) {
             int capaciteDeCollecte = randEntre(1, 1);
             int capaciteDeStockage = randEntre(7, 13);
@@ -201,27 +199,27 @@ public class Simulation {
             }
 
             terrain.affiche(7);
-		    System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+            System.out.println("Informations sur le terrain:\n" + terrain + "\n");
         }
     }
-    
+
     public void removeTravailleurs() {
         travailleurs.clear();
     }
 
-    public  void ramassage(){
+    public void ramassage() {
         for (TravailleurUsine tu : getTravailleurs()) {
             System.out.println(tu);
             totalRamassage += tu.getQuantiteCollectee();
         }
     }
 
-    public int getTotalRamassage(){
+    public int getTotalRamassage() {
         return totalRamassage;
     }
-    
+
     public int videRamassagePlastique() {
-        int qteTotalRamassage=totalRamassage;
+        int qteTotalRamassage = totalRamassage;
         totalRamassage = 0;
         return qteTotalRamassage;
     }
@@ -243,7 +241,7 @@ public class Simulation {
         }
     }
 
-    public void setPBDS(){
+    public void setPBDS() {
         for (PlastiqueBioDegradable pbd : pbds) {
             int x = randEntre(0, 4);
             int y = randEntre(0, 4);
@@ -253,7 +251,7 @@ public class Simulation {
         }
     }
 
-    public void decomposerTout(){
+    public void decomposerTout() {
         for (PlastiqueBioDegradable pbd : pbds) {
             pbd.augmenteAge();
             if (pbd.estDecompositionPossible()) {
@@ -263,7 +261,7 @@ public class Simulation {
         }
     }
 
-    public int getQteDecomp(){
+    public int getQteDecomp() {
         return qtetDecomp;
     }
 
