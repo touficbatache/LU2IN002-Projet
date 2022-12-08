@@ -330,6 +330,8 @@ public class Simulation {
     }
 
     /**
+     * Renvoie la quantité de plastique biodégradable décomposé.
+     *
      * @return la quantité de plastique biodégradable décomposé
      */
     public int getQteDecomposee() {
