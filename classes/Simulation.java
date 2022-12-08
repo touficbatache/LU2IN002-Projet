@@ -109,11 +109,17 @@ public class Simulation {
                     technicien.seDeplacer(i, j);
                     boolean collecteSucces = true;
                     while (collecteSucces) {
-                        StatutReponse collecteResultat = technicien.collecter();
-                        if (collecteResultat.succes) {
-                            System.out.println(collecteResultat.message);
+                        try {
+                            int collecte = technicien.collecter();
+                            if (collecte == -1) {
+                                collecteSucces = false;
+                            } else {
+                                System.out.println("Je viens de collecter " + collecte + "L de pétrole. Mes barils contiennent " + technicien.getQuantiteCollectee() + "L en tout.");
+                            }
+                        } catch (Exception e) {
+                            System.out.println();
+                            collecteSucces = false;
                         }
-                        collecteSucces = collecteResultat.succes;
                     }
                 }
             }
@@ -147,11 +153,15 @@ public class Simulation {
      * Vide la totalité du pétrole stocké dans les barils des techniciens.
      *
      * @return le volume de pétrole total extrait par les techniciens
+     * @throws PasDeCollecteException s'il n'y a pas de collectes
      */
-    public int videExtractionPetrole() {
+    public int videExtractionPetrole() throws PasDeCollecteException {
         int qteExtraction = 0;
         for (TechnicienPetrolier tp : techniciens) {
             qteExtraction += tp.videCollecte();
+        }
+        if (qteExtraction == 0) {
+            throw new PasDeCollecteException("videExtractionPetrole", "runTechniciens");
         }
         totalExtraction += qteExtraction;
         return qteExtraction;
@@ -159,12 +169,13 @@ public class Simulation {
 
     /**
      * Produit du plastique polluant à partir du pétrole total extrait.
+     *
+     * @throws PasDeCollecteException s'il n'y a pas de collectes
      */
-    public void produirePlastique() {
-        // TODO: throw some exception if no petrole in stock
-        // if (videExtractionPetrole() == 0) {
-        //     ...exception
-        // }
+    public void produirePlastique() throws PasDeCollecteException {
+        if (totalExtraction == 0) {
+            throw new PasDeCollecteException("produirePlastique", "videExtractionPetrole");
+        }
         int nbPlastiqueProduit = (int) (totalExtraction / 100.0);
         for (int i = 0; i < nbPlastiqueProduit; i++) {
             int randQte = (int) (Math.random() * 4 + 3); // entre 3 et 7
@@ -223,11 +234,17 @@ public class Simulation {
                     travailleur.seDeplacer(i, j);
                     boolean collecteSucces = true;
                     while (collecteSucces) {
-                        StatutReponse collecteResultat = travailleur.collecter();
-                        if (collecteResultat.succes) {
-                            System.out.println(collecteResultat.message);
+                        try {
+                            int collecte = travailleur.collecter();
+                            if (collecte == -1) {
+                                collecteSucces = false;
+                            } else {
+                                System.out.println("Je viens de collecter " + collecte + "kg de plastique. J'ai " + travailleur.getQuantiteCollectee() + "kg en tout.");
+                            }
+                        } catch (Exception e) {
+                            System.out.println();
+                            collecteSucces = false;
                         }
-                        collecteSucces = collecteResultat.succes;
                     }
                 }
             }
@@ -247,11 +264,16 @@ public class Simulation {
      * Vide la totalité du plastique polluant stocké avec les travailleurs.
      *
      * @return le volume de plastique polluant total collecté par les travailleurs
+     * @throws PasDeCollecteException s'il n'y a pas de collectes
      */
-    public int videRamassagePlastique() {
+
+    public int videRamassagePlastique() throws PasDeCollecteException {
         int qteRamassage = 0;
         for (TravailleurUsine tu : travailleurs) {
             qteRamassage += tu.videCollecte();
+        }
+        if (qteRamassage == 0) {
+            throw new PasDeCollecteException("videRamassagePlastique", "runTravailleurs");
         }
         totalRamassage += qteRamassage;
         return qteRamassage;
@@ -259,13 +281,13 @@ public class Simulation {
 
     /**
      * Produit du plastique biodégradable à partir du plastique polluant total ramassé.
+     *
+     * @throws PasDeCollecteException s'il n'y a pas de collectes
      */
-    public void recyclerTout() {
-        // TODO: throw exception here too
-        // if (qteRecycle >= qteMaxRecyclable) {
-        //     ...exception
-        // }
-
+    public void recyclerTout() throws PasDeCollecteException {
+        if (totalRamassage == 0) {
+            throw new PasDeCollecteException("recyclerTout", "videRamassagePlastique");
+        }
         int step = (int) (Math.random() * 2 + 2); // entre 2 et 4
         int nbPlastiqueRamasse = totalRamassage;
         int nbPBD = (int) Math.ceil((double) nbPlastiqueRamasse / step);
@@ -315,7 +337,6 @@ public class Simulation {
     }
 
     /**
-     *
      * @param min la borne inférieure
      * @param max la borne supérieure
      * @return un nombre entier appartenant à [min, max]

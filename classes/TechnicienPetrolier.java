@@ -32,35 +32,25 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
     }
 
     /**
-     * Permet de collecter le Pétrole qui peut se trouver dans la même case du TechnicienPetrolier si la CapaciteDeCollecte et la capaciteDeStockage le permettent
-     * @return le StatutReponse de la méthode 
+     * Permet de collecter le Pétrole qui peut se trouver dans la même case du TechnicienPetrolier,
+     * si la capacité de collecte et la capacité de stockage le permettent.
      */
     @Override
-    public StatutReponse collecter() {
-        if (estPlein()) {
-            return new StatutReponse(false, "Je ne peux pas stocker plus de pétrole avec moi.");
-        }
+    public int collecter() throws Exception {
+        if (estPlein()) throw new Exception("Je ne peux pas stocker plus de pétrole avec moi.");
 
         Ressource ressourceACollecter = getTerrain().getCase(getPosX(), getPosY());
-        
-        if (ressourceACollecter == null) {
-            return new StatutReponse(false, "Pas de ressource sur cette case.");
-        }
 
-        if (!(ressourceACollecter instanceof Petrole)) {
-            return new StatutReponse(false, "La ressource n'est pas du pétrole.");
-        }
+        // Pas de ressource sur cette case ou la ressource n'est pas du pétrole.
+        if (!(ressourceACollecter instanceof Petrole)) return -1;
 
         int aCollecter = Math.min(Math.min(ressourceACollecter.getQuantite(), capaciteDeCollecte), getCapaciteDeStockage() - qteCollectee);
-        if (qteCollectee + aCollecter > getCapaciteDeStockage()) {
-            return new StatutReponse(false, "Je ne peux pas stocker plus de pétrole avec moi.");
-        }
         ressourceACollecter.setQuantite(ressourceACollecter.getQuantite() - aCollecter);
         if (ressourceACollecter.getQuantite() == 0) {
             getTerrain().videCase(ressourceACollecter.getX(), ressourceACollecter.getY());
         }
         qteCollectee += aCollecter;
-        return new StatutReponse(true, "J'ai collecté " + aCollecter + "L de pétrole. Mes barils contiennent " + qteCollectee + "L en tout.");
+        return aCollecter;
     }
 
     /**
@@ -69,6 +59,14 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
     @Override
     public int getCapaciteDeStockage() {
         return capaciteDeBaril * nbBarils;
+    }
+
+    /**
+     * @return la quantité de pétrole collectée
+     */
+    @Override
+    public int getQuantiteCollectee() {
+        return qteCollectee;
     }
 
     /**

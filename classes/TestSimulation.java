@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Test de la Simulation de l'écosystème créé.
  *
@@ -28,14 +30,18 @@ public class TestSimulation {
         // Affiche terrain
         simulation.afficheTerrain(7);
 
-        // Vider les extractions de pétrole, produire du plastique et polluer le terrain
-        System.out.println("Nos Techniciens Pétroliers après extraction :");
-        int totalExtraction = simulation.videExtractionPetrole();
-        System.out.println("Ils ont collecté " + totalExtraction + "L en tout.\n");
-        System.out.println("L'usine produit du plastique...");
-        simulation.produirePlastique();
-        simulation.polluer(true);
-        System.out.println("Du plastique polluant a été jeté dans l'eau\n");
+        try {
+            // Vider les extractions de pétrole, produire du plastique et polluer le terrain
+            System.out.println("Nos Techniciens Pétroliers après extraction :");
+            int totalExtraction = simulation.videExtractionPetrole();
+            System.out.println("Ils ont collecté " + totalExtraction + "L en tout.\n");
+            System.out.println("L'usine produit du plastique...");
+            simulation.produirePlastique();
+            simulation.polluer(true);
+            System.out.println("Du plastique polluant a été jeté dans l'eau\n");
+        } catch (PasDeCollecteException e) {
+            System.out.println(e.getMessage());
+        }
 
         // Affiche terrain
         simulation.afficheTerrain(7);
@@ -46,14 +52,18 @@ public class TestSimulation {
         // Affiche terrain
         simulation.afficheTerrain(7);
 
-        // Vider les ramassages de plastique, tout recycler et les laisser se décomposer dans le terrain
-        System.out.println("Nos Travailleurs à l'usine après ramassage :");
-        int totalRamassage = simulation.videRamassagePlastique();
-        System.out.println("Ils ont collecté " + totalRamassage + "kg de plastique polluant en tout.\n");
-        System.out.println("Recyclage en cours...");
-        simulation.recyclerTout();
-        simulation.rejettePlastiquesBio(true);
-        System.out.println("Du plastique biodégradable a été jeté dans l'eau\n");
+        try {
+            // Vider les ramassages de plastique, tout recycler et les laisser se décomposer dans le terrain
+            System.out.println("Nos Travailleurs à l'usine après ramassage :");
+            int totalRamassage = simulation.videRamassagePlastique();
+            System.out.println("Ils ont collecté " + totalRamassage + "kg de plastique polluant en tout.\n");
+            System.out.println("Recyclage en cours...");
+            simulation.recyclerTout();
+            simulation.rejettePlastiquesBio(true);
+            System.out.println("Du plastique biodégradable a été jeté dans l'eau\n");
+        } catch (PasDeCollecteException e) {
+            System.out.println(e.getMessage());
+        }
 
         // Affiche terrain
         simulation.afficheTerrain(7);

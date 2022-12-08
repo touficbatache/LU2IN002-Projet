@@ -29,27 +29,19 @@ public class TravailleurUsine extends Agent implements Collecteur {
     }
 
     /**
-     * Permet de collecter le PlastiquePolluant qui peut se trouver dans la même case du TravailleurUsine si la CapaciteDeCollecte et la capaciteDeStockage le permettent
-     * @return le StatutReponse de la méthode
+     * Permet de collecter le PlastiquePolluant qui peut se trouver dans la même case du TravailleurUsine,
+     * si la capacité de collecte et la capacité de stockage le permettent.
      */
     @Override
-    public StatutReponse collecter() {
-        if (estPlein()) {
-            return new StatutReponse(false, "Je ne peux pas stocker plus de plastique avec moi. Besoin de déposer à l'usine.");
-        }
+    public int collecter() throws Exception {
+        if (estPlein()) throw new Exception("Je ne peux pas stocker plus de plastique avec moi. Besoin de déposer à l'usine.");
 
         Ressource ressourceACollecter = getTerrain().getCase(getPosX(), getPosY());
 
-        if (ressourceACollecter == null) {
-            return new StatutReponse(false, "Pas de ressource sur cette case.");
-        }
-
-        if (!(ressourceACollecter instanceof PlastiquePolluant)) {
-            return new StatutReponse(false, "La ressource n'est pas du plastique polluant.");
-        }
+        if (!(ressourceACollecter instanceof PlastiquePolluant)) return -1;
 
         if (!((PlastiquePolluant) ressourceACollecter).estRecyclagePossible()) {
-            return new StatutReponse(false, "Le recyclage n'est plus possible.");
+            return -1;
         }
 
         int aCollecter = Math.min(Math.min(ressourceACollecter.getQuantite(), capaciteDeCollecte), getCapaciteDeStockage() - qteCollectee);
@@ -58,7 +50,7 @@ public class TravailleurUsine extends Agent implements Collecteur {
             getTerrain().videCase(ressourceACollecter.getX(), ressourceACollecter.getY());
         }
         qteCollectee += aCollecter;
-        return new StatutReponse(true, "J'ai collecté " + aCollecter + "kg de plastique. J'ai " + qteCollectee + "kg en tout.");
+        return aCollecter;
     }
 
     /**
@@ -67,6 +59,14 @@ public class TravailleurUsine extends Agent implements Collecteur {
     @Override
     public int getCapaciteDeStockage() {
         return capaciteDeStockage;
+    }
+
+    /**
+     * @return la quantité de plastique polluant collecté
+     */
+    @Override
+    public int getQuantiteCollectee() {
+        return qteCollectee;
     }
 
     /**

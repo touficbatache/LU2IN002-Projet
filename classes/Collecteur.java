@@ -7,12 +7,17 @@
  */
 
 public interface Collecteur {
-    StatutReponse collecter();
+    int collecter() throws Exception;
 
     /**
      * @return la capacité de stockage
      */
     int getCapaciteDeStockage();
+
+    /**
+     * @return la quantité collectée
+     */
+    int getQuantiteCollectee();
 
     /**
      * @return si la quantité collectée est supérieure ou égale à la capacité de stockage
