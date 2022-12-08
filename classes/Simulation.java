@@ -282,9 +282,10 @@ public class Simulation {
     /**
      * Produit du plastique biodégradable à partir du plastique polluant total ramassé.
      *
+     * @return plastiques biodégradables recyclés
      * @throws PasDeCollecteException s'il n'y a pas de collectes
      */
-    public void recyclerTout() throws PasDeCollecteException {
+    public int recyclerTout() throws PasDeCollecteException {
         if (totalRamassage == 0) {
             throw new PasDeCollecteException("recyclerTout", "videRamassagePlastique");
         }
@@ -298,6 +299,7 @@ public class Simulation {
             nbPlastiqueRamasse -= qte;
         }
         totalRamassage = 0;
+        return pbds.size();
     }
 
     /**
@@ -324,9 +326,9 @@ public class Simulation {
             pbd.augmenteAge();
             if (pbd.estDecompositionPossible()) {
                 terrain.videCase(pbd.getX(), pbd.getY());
+                aEnlever.add(pbd);
+                qteDecomposee++;
             }
-            aEnlever.add(pbd);
-            qteDecomposee++;
         }
         pbds.removeAll(aEnlever);
     }

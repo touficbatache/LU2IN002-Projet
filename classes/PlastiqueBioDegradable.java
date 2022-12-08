@@ -40,6 +40,7 @@ public class PlastiqueBioDegradable extends Plastique {
     @Override
     public String toString() {
         return super.toString() +
+                ", dureeDeVie: " + dureeDeVie +
                 ((estDecompositionPossible()) ? " S'est décomposé !" : " Besoin plus de temps pour la décomposition");
     }
 }

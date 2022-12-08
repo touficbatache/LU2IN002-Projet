@@ -50,25 +50,32 @@ public class TestSimulation {
         // Affiche terrain
         simulation.afficheTerrain(7);
 
+        String nbPlastiquesBio = null;
         try {
             // Vider les ramassages de plastique, tout recycler et les laisser se décomposer dans le terrain
             System.out.println("Nos Travailleurs à l'usine après ramassage :");
             int totalRamassage = simulation.videRamassagePlastique();
             System.out.println("Ils ont collecté " + totalRamassage + "kg de plastique polluant en tout.\n");
             System.out.println("Recyclage en cours...");
-            simulation.recyclerTout();
+            nbPlastiquesBio = Integer.toString(simulation.recyclerTout());
             simulation.rejettePlastiquesBio(true);
             System.out.println("Du plastique biodégradable a été jeté dans l'eau\n");
         } catch (PasDeCollecteException e) {
             System.out.println(e.getMessage());
         }
 
-        // Affiche terrain
-        simulation.afficheTerrain(7);
-        // Essaye de décomposer le plastique biodégradable jeté dans l'eau
-        simulation.decomposerTout();
-        System.out.println(simulation.getQteDecomposee() + " plastiques biodégradables se sont décomposés \n");
-        // Affiche terrain
-        simulation.afficheTerrain(7);
+        if (nbPlastiquesBio != null) {
+            // Affiche terrain
+            simulation.afficheTerrain(7);
+
+            while (simulation.getQteDecomposee() != Integer.parseInt(nbPlastiquesBio)) {
+                // Essaye de décomposer le plastique biodégradable jeté dans l'eau
+                simulation.decomposerTout();
+                System.out.println(simulation.getQteDecomposee() + " plastiques biodégradables se sont décomposés \n");
+                // Affiche terrain
+                simulation.afficheTerrain(7);
+            }
+        }
+
     }
 }
