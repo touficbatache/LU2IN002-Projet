@@ -1,17 +1,19 @@
+import java.util.ArrayList;
+
 /**
  * Simulation du terrain. Elle contient et modifie plusieurs transformations :
- * - la création d'une liste de {@link TechnicienPetrolier}
- * - la création d'une liste de {@link TravailleurUsine}
- * - la creation de {@link Petrole}
- * - la création du {@link PlastiquePolluant} à partir du pétrole,
- * - le recyclage du plastique polluant en {@link PlastiqueBioDegradable}, et
- * - la décomposition du plastique biodégradable jeté dans le terrain.
+ * <ul>
+ *  <li>la création d'une liste de {@link TechnicienPetrolier}</li>
+ *  <li>la création d'une liste de {@link TravailleurUsine}</li>
+ *  <li>la creation de {@link Petrole}</li>
+ *  <li>la création du {@link PlastiquePolluant} à partir du pétrole,</li>
+ *  <li>le recyclage du plastique polluant en {@link PlastiqueBioDegradable}, et</li>
+ *  <li>la décomposition du plastique biodégradable jeté dans le terrain.</li>
+ * </ul>
  *
  * @author Toufic BATACHE (LU2IN002 2022dec)
  * @author Haya MAMLOUK (LU2IN002 2022dec)
  */
-
-import java.util.ArrayList;
 
 public class Simulation {
     private static Simulation INSTANCE;
