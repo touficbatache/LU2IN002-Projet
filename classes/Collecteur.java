@@ -20,7 +20,7 @@ public interface Collecteur {
     boolean estPlein();
 
     /**
-     * Retourne et reinitialise la quantité collectée
+     * Retourne la quantité collectée et la réinitialise
      *
      * @return la quantité collectée
      */

@@ -61,16 +61,27 @@ public class TravailleurUsine extends Agent implements Collecteur {
         return new StatutReponse(true, "J'ai collecté " + aCollecter + "kg de plastique. J'ai " + qteCollectee + "kg en tout.");
     }
 
+    /**
+     * @return la capacité de stockage de pétrole
+     */
     @Override
     public int getCapaciteDeStockage() {
         return capaciteDeStockage;
     }
 
+    /**
+     * @return si le stockage est plein, ne peut plus stocker plus de pétrole
+     */
     @Override
     public boolean estPlein() {
         return qteCollectee >= getCapaciteDeStockage();
     }
 
+    /**
+     * Retourne la quantité collectée et la réinitialise
+     *
+     * @return la quantité de plastique polluant collectée
+     */
     @Override
     public int videCollecte() {
         int qte = qteCollectee;

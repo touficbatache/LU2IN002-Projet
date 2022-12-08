@@ -63,16 +63,27 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
         return new StatutReponse(true, "J'ai collecté " + aCollecter + "L de pétrole. Mes barils contiennent " + qteCollectee + "L en tout.");
     }
 
+    /**
+     * @return la capacité de stockage de pétrole
+     */
     @Override
     public int getCapaciteDeStockage() {
         return capaciteDeBaril * nbBarils;
     }
 
+    /**
+     * @return si le stockage est plein, ne peut plus stocker plus de pétrole
+     */
     @Override
     public boolean estPlein() {
         return qteCollectee >= getCapaciteDeStockage();
     }
 
+    /**
+     * Retourne la quantité extraite et la réinitialise
+     *
+     * @return la quantité de pétrole extraite
+     */
     @Override
     public int videCollecte() {
         int qte = qteCollectee;
@@ -81,7 +92,7 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
     }
 
     /**
-     * Renvoie des informations sur le TechinicienPetrolier
+     * Renvoie des informations sur le TechnicienPetrolier
      * @return l'ID et la position du TechnicienPetrolier, le nombre de barils et leur capacité de stockage, la capacité de collecte et la quantité collectée
      */
     @Override
