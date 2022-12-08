@@ -14,6 +14,12 @@ public class TravailleurUsine extends Agent implements Collecteur {
     private int capaciteDeStockage;
     private int qteCollectee;
 
+    /**
+     * Constructeur qui initialise la capacité de collecte et de stockage du TravailleurUsine ainsi que le Terrain sur lequel il se trouve
+     * @param capaciteDeCollecte capacité de collecte du TravailleurUsine
+     * @param capaciteDeStockage capacité de stockage du TravailleurUsine
+     * @param t Terrain sur lequel se trouve le TravailleurUsine
+     */
     public TravailleurUsine(int capaciteDeCollecte, int capaciteDeStockage, Terrain t) {
         super("TravailleurUsine", t);
 
@@ -22,6 +28,10 @@ public class TravailleurUsine extends Agent implements Collecteur {
         this.qteCollectee = 0;
     }
 
+    /**
+     * Permet de collecter le PlastiquePolluant qui peut se trouver dans la même case du TravailleurUsine si la CapaciteDeCollecte et la capaciteDeStockage le permettent
+     * @return le StatutReponse de la méthode
+     */
     @Override
     public StatutReponse collecter() {
         if (estPlein()) {
@@ -72,6 +82,10 @@ public class TravailleurUsine extends Agent implements Collecteur {
         return qte;
     }
 
+    /**
+     * Renvoie des informations sur le TravailleurUsine
+     * @return l'ID et la position du TravailleurUsine, sa capacité de stockage, sa capacité de collecte et la quantité collecctée
+     */
     @Override
     public String toString() {
         return super.toString() +

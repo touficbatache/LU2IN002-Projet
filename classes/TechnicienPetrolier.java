@@ -32,7 +32,7 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
     }
 
     /**
-     * Collecte du pétrole si la Ressource est présente dans la même case que le TechnicienPetrolier et si ce dernier possède la capcité de collecter
+     * Permet de collecter le Pétrole qui peut se trouver dans la même case du TechnicienPetrolier si la CapaciteDeCollecte et la capaciteDeStockage le permettent
      * @return le StatutReponse de la méthode 
      */
     @Override
