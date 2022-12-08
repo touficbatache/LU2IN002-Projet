@@ -12,16 +12,29 @@
 public class PlastiquePolluant extends Plastique {
     private int ageLimiteDeRecyclage;
 
+
+    /**
+     * Constructeur qui initialise la quantité du plastique polluant
+     * @param qte quantité du plastique polluant
+     */
     public PlastiquePolluant(int qte, int ageLimiteDeRecyclage) {
         super("PP", qte);
 
         this.ageLimiteDeRecyclage = ageLimiteDeRecyclage;
     }
 
+    /**
+     * Recylce le plastique polluant en le transformant en plastique biodégradable
+     * @return le nouveau plastique biodégradable
+     */
     public boolean estRecyclagePossible() {
         return getAge() < ageLimiteDeRecyclage;
     }
 
+    /**
+     * Renvoie des informations sur le plastique polluant
+     * @return l'ID, la quantité du plastique polluant, et s'il a été recyclé
+     */
     @Override
     public String toString() {
         return super.toString() +
