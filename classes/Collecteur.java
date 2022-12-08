@@ -36,8 +36,8 @@ public abstract class Collecteur extends Agent {
     /**
      * Permet de collecter la ressource qui peut se trouver dans la même case de l'agent collecteur
      *
-     * @param ressource ressource à collecter
      * @return le volume de la collecte
+     * @throws Exception si la collecte n'est pas possible pour une raison fatale
      */
     public int collecter() throws Exception {
         if (!verifierCollectePossible()) {
@@ -81,18 +81,5 @@ public abstract class Collecteur extends Agent {
         int qte = qteCollectee;
         qteCollectee = 0;
         return qte;
-    }
-
-    /**
-     * Renvoie les infos relatives au collecteur.
-     *
-     * @return les infos relatives au collecteur.
-     */
-    @Override
-    public String toString() {
-        return super.toString() +
-                " Je peux stocker " + capaciteDeStockage + "kg avec moi." +
-                " À chaque collecte, je peux ramasser " + capaciteDeCollecte + "kg" +
-                " et j'ai déjà " + getQuantiteCollectee() + "kg sur moi.";
     }
 }

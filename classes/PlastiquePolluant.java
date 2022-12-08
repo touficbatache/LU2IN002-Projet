@@ -39,6 +39,7 @@ public class PlastiquePolluant extends Plastique {
     @Override
     public String toString() {
         return super.toString() +
-                ((estRecyclagePossible()) ? " Recyclage possible !" : " Ne peux plus être recyclé");
+                ", ageLimiteDeRecyclage: " + ageLimiteDeRecyclage + "." +
+                ((estRecyclagePossible()) ? " Recyclage encore possible !" : " Ne peux plus être recyclé");
     }
 }

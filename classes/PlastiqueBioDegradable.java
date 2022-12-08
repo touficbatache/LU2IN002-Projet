@@ -23,6 +23,17 @@ public class PlastiqueBioDegradable extends Plastique {
     }
 
     /**
+     * Constructeur qui initialise la quantité du plastique biodégradable ainsi que sa durée de vie
+     *
+     * @param pp un plastique polluant
+     */
+    public PlastiqueBioDegradable(PlastiquePolluant pp) {
+        super("PBD", pp.getQuantite());
+
+        this.dureeDeVie = Simulation.randEntre(1, 2);
+    }
+
+    /**
      * Vérifie si assez de temps est passé pour que le plastique biodégradable se décompose
      *
      * @return booléen qui indique si la décomposition est possible ou pas
@@ -40,7 +51,7 @@ public class PlastiqueBioDegradable extends Plastique {
     @Override
     public String toString() {
         return super.toString() +
-                ", dureeDeVie: " + dureeDeVie +
-                ((estDecompositionPossible()) ? " S'est décomposé !" : " Besoin plus de temps pour la décomposition");
+                ", dureeDeVie: " + dureeDeVie + "." +
+                ((estDecompositionPossible()) ? " S'est décomposé !" : " Besoin plus de temps pour la décomposition...");
     }
 }

@@ -33,27 +33,27 @@ public class Simulation {
     private int totalExtraction;
 
     private final ArrayList<TravailleurUsine> travailleurs;
-    private int totalRamassage;
-
-    private final ArrayList<PlastiqueBioDegradable> pbds;
+    private ArrayList<PlastiquePolluant> plastiqueRamasse;
 
     private final ArrayList<PlastiquePolluant> pps = new ArrayList<PlastiquePolluant>();
-    private int qteDecomposee;
+
+    private final ArrayList<PlastiqueBioDegradable> pbds;
+    private final ArrayList<PlastiqueBioDegradable> pbdsATraiter;
 
     private Simulation() {
         this.terrain = new Terrain(SIZE_TERRAIN[0], SIZE_TERRAIN[1]);
-        nbPetrole = randEntre(2, 6);
-        nbTPs = randEntre(2, 6);
-        nbTUs = randEntre(3, 6);
+        nbPetrole = randEntre(3, 5);
+        nbTPs = randEntre(3, 4);
+        nbTUs = randEntre(5, 7);
 
         techniciens = new ArrayList<TechnicienPetrolier>();
         totalExtraction = 0;
 
         travailleurs = new ArrayList<TravailleurUsine>();
-        totalRamassage = 0;
+        plastiqueRamasse = new ArrayList<PlastiquePolluant>();
 
         pbds = new ArrayList<PlastiqueBioDegradable>();
-        qteDecomposee = 0;
+        pbdsATraiter = new ArrayList<PlastiqueBioDegradable>();
     }
 
     // Méthodes terrain
@@ -65,7 +65,7 @@ public class Simulation {
      */
     public void afficheTerrain(int nbCaracteres) {
         terrain.affiche(nbCaracteres);
-        System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+//        System.out.println("Informations sur le terrain:\n" + terrain + "\n");
     }
 
     /**
@@ -73,6 +73,15 @@ public class Simulation {
      */
     public void afficheTerrain() {
         afficheTerrain(7);
+    }
+
+    /**
+     * Renvoie le nombre de cases remplies sur le terrain.
+     *
+     * @return le nombre de cases remplies sur le terrain
+     */
+    public int getCasesRemplies() {
+        return terrain.lesRessources().size();
     }
 
     /**
@@ -84,11 +93,22 @@ public class Simulation {
         if (affiche) System.out.println("Nos Techniciens Pétroliers :");
 
         for (int i = 0; i < nbTPs; i++) {
-            int capaciteDeCollecte = randEntre(20, 40);
+            int capaciteDeCollecte = randEntre(75, 150);
             int capaciteDeBaril = randEntre(30, 50);
             int nbBarils = randEntre(5, 10);
             techniciens.add(new TechnicienPetrolier(capaciteDeCollecte, capaciteDeBaril, nbBarils, terrain));
             if (affiche) System.out.println(techniciens.get(i));
+        }
+
+        if (affiche) System.out.println();
+    }
+
+    /**
+     * Affiche les Techniciens Pétroliers.
+     */
+    public void afficheTechniciens() {
+        for (TechnicienPetrolier tp : techniciens) {
+            System.out.println(tp);
         }
     }
 
@@ -98,34 +118,54 @@ public class Simulation {
      */
     public void runTechniciens() {
         for (TechnicienPetrolier technicien : techniciens) {
-            System.out.println("\nLe Technicien numéro " + technicien.ident + " parcourt le terrain.");
-            for (int i = 0; i < SIZE_TERRAIN[0] && !technicien.estPlein(); i++) {
-                for (int j = 0; j < SIZE_TERRAIN[1] && !technicien.estPlein(); j++) {
+            System.out.println("Le Technicien numéro " + technicien.ident + " parcourt le terrain.");
+            terrainParcours:
+            for (int i = technicien.getPosX(); i < SIZE_TERRAIN[0] && !technicien.estPlein(); i++) {
+                technicien.seDeplacer(i, 0);
+                for (int j = technicien.getPosY(); j < SIZE_TERRAIN[1] && !technicien.estPlein(); j++) {
+                    if (!estDeplacementPossible(technicien, i, j)) {
+                        System.out.println("Oops, un autre agent se trouve sur (" + i + "," + j + "), je saute cette case.");
+                        continue;
+                    }
+
+                    technicien.seDeplacer(i, j);
                     if (terrain.getCase(i, j) instanceof Petrole) {
                         Petrole p = (Petrole) terrain.getCase(i, j);
                         System.out.println("J'ai trouvé " + p.getQuantite() + "L de pétrole en (" + p.getX() + ", "
                                 + p.getY() + ")");
                     }
-                    technicien.seDeplacer(i, j);
-                    boolean collecteSucces = true;
-                    while (collecteSucces) {
-                        try {
-                            int collecte = technicien.collecter();
-                            if (collecte == -1) {
-                                collecteSucces = false;
-                            } else {
-                                System.out.println("Je viens de collecter " + collecte + "L de pétrole. Mes barils contiennent " + technicien.getQuantiteCollectee() + "L en tout.");
-                            }
-                        } catch (Exception e) {
-                            System.out.println();
-                            collecteSucces = false;
+                    try {
+                        int collecte = technicien.collecter();
+                        if (collecte != -1) {
+                            System.out.println("Je viens de collecter " + collecte + "L de pétrole. Mes barils contiennent " + technicien.getQuantiteCollectee() + "L en tout.");
+                            break terrainParcours;
                         }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
                     }
                 }
             }
 
             afficheTerrain();
         }
+    }
+
+    /**
+     * Vérifie si la case où se déplace l'agent est vide ou pas.
+     *
+     * @param agent l'agent en question
+     * @param x coordonnées x de la case
+     * @param y coordonnées y de la case
+     * @return si la case où se déplace l'agent est vide
+     */
+    private boolean estDeplacementPossible(Agent agent, int x, int y) {
+        for (TechnicienPetrolier tp : techniciens) {
+            if (tp.ident != agent.ident && tp.getPosX() == x && tp.getPosY() == y) return false;
+        }
+        for (TravailleurUsine tu : travailleurs) {
+            if (tu.ident != agent.ident && tu.getPosX() == x && tu.getPosY() == y) return false;
+        }
+        return true;
     }
 
     /**
@@ -142,7 +182,7 @@ public class Simulation {
         for (int i = 0; i < nbPetrole; i++) {
             int x = randEntre(0, 4);
             int y = randEntre(5, 9);
-            int qte = randEntre(300, 400); // En litres
+            int qte = randEntre(200, 300); // En litres
             Petrole petrole = new Petrole(qte);
             petrole.setPosition(x, y);
             terrain.setCase(x, y, petrole);
@@ -176,10 +216,10 @@ public class Simulation {
         if (totalExtraction == 0) {
             throw new PasDeCollecteException("produirePlastique", "videExtractionPetrole");
         }
-        int nbPlastiqueProduit = (int) (totalExtraction / 100.0);
+        int nbPlastiqueProduit = (int) (totalExtraction / 10.0);
         for (int i = 0; i < nbPlastiqueProduit; i++) {
-            int randQte = (int) (Math.random() * 4 + 3); // entre 3 et 7
-            int ageLimiteDeRecyclage = randEntre(5, 7);
+            int randQte = randEntre(3, 5);
+            int ageLimiteDeRecyclage = randEntre(3, 6);
             pps.add(new PlastiquePolluant(randQte, ageLimiteDeRecyclage));
         }
         totalExtraction = 0;
@@ -210,11 +250,13 @@ public class Simulation {
         if (affiche) System.out.println("Nos Travailleurs à l'usine :");
 
         for (int i = 0; i < nbTUs; i++) {
-            int capaciteDeCollecte = randEntre(1, 1);
+            int capaciteDeCollecte = randEntre(5, 8);
             int capaciteDeStockage = randEntre(7, 13);
             travailleurs.add(new TravailleurUsine(capaciteDeCollecte, capaciteDeStockage, terrain));
             if (affiche) System.out.println(travailleurs.get(i));
         }
+
+        if (affiche) System.out.println();
     }
 
     /**
@@ -223,34 +265,38 @@ public class Simulation {
      */
     public void runTravailleurs() {
         for (TravailleurUsine travailleur : travailleurs) {
-            System.out.println("\nLe Travailleur numéro " + travailleur.ident + " parcourt le terrain.");
-            for (int i = 0; i < SIZE_TERRAIN[0] && !travailleur.estPlein(); i++) {
-                for (int j = 0; j < SIZE_TERRAIN[1] && !travailleur.estPlein(); j++) {
+            System.out.println("Le Travailleur numéro " + travailleur.ident + " parcourt le terrain.");
+            terrainParcours:
+            for (int i = travailleur.getPosX(); i < SIZE_TERRAIN[0] && !travailleur.estPlein(); i++) {
+                travailleur.seDeplacer(i, 0);
+                for (int j = travailleur.getPosY(); j < SIZE_TERRAIN[1] && !travailleur.estPlein(); j++) {
+                    if (!estDeplacementPossible(travailleur, i, j)) {
+                        System.out.println("Oops, un autre agent se trouve sur (" + i + "," + j + "), je saute cette case.");
+                        continue;
+                    }
+
+                    travailleur.seDeplacer(i, j);
                     if (terrain.getCase(i, j) instanceof PlastiquePolluant) {
                         PlastiquePolluant tPP = (PlastiquePolluant) terrain.getCase(i, j);
                         System.out.println("J'ai trouvé " + tPP.getQuantite() + "kg de plastique en (" + tPP.getX()
                                 + ", " + tPP.getY() + ")");
                     }
-                    travailleur.seDeplacer(i, j);
-                    boolean collecteSucces = true;
-                    while (collecteSucces) {
-                        try {
-                            int collecte = travailleur.collecter();
-                            if (collecte == -1) {
-                                collecteSucces = false;
-                            } else {
-                                System.out.println("Je viens de collecter " + collecte + "kg de plastique. J'ai " + travailleur.getQuantiteCollectee() + "kg en tout.");
-                            }
-                        } catch (Exception e) {
-                            System.out.println();
-                            collecteSucces = false;
+                    try {
+                        int collecte = travailleur.collecter();
+                        if (collecte != -1) {
+                            System.out.println("Je viens de collecter " + collecte + "kg de plastique. J'ai " + travailleur.getQuantiteCollectee() + "kg en tout.");
+                            break terrainParcours;
                         }
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
                     }
                 }
             }
 
             afficheTerrain();
         }
+
+        System.out.println("runTravailleurs size: " + pbds.size());
     }
 
     /**
@@ -268,15 +314,18 @@ public class Simulation {
      */
 
     public int videRamassagePlastique() throws PasDeCollecteException {
-        int qteRamassage = 0;
+        plastiqueRamasse.clear();
+
         for (TravailleurUsine tu : travailleurs) {
-            qteRamassage += tu.videCollecte();
+            plastiqueRamasse.addAll(tu.getCollectes());
+            tu.videCollecte();
         }
-        if (qteRamassage == 0) {
+
+        if (plastiqueRamasse.isEmpty()) {
             throw new PasDeCollecteException("videRamassagePlastique", "runTravailleurs");
         }
-        totalRamassage += qteRamassage;
-        return qteRamassage;
+
+        return plastiqueRamasse.size();
     }
 
     /**
@@ -286,20 +335,17 @@ public class Simulation {
      * @throws PasDeCollecteException s'il n'y a pas de collectes
      */
     public int recyclerTout() throws PasDeCollecteException {
-        if (totalRamassage == 0) {
+        if (plastiqueRamasse.size() == 0) {
             throw new PasDeCollecteException("recyclerTout", "videRamassagePlastique");
         }
-        int step = (int) (Math.random() * 2 + 2); // entre 2 et 4
-        int nbPlastiqueRamasse = totalRamassage;
-        int nbPBD = (int) Math.ceil((double) nbPlastiqueRamasse / step);
-        for (int i = 0; i < nbPBD; i++) {
-            int qte = Math.min(nbPlastiqueRamasse, step);
-            int dureeDeVie = randEntre(3, 5);
-            pbds.add(new PlastiqueBioDegradable(qte, dureeDeVie));
-            nbPlastiqueRamasse -= qte;
+
+        for (PlastiquePolluant pp : plastiqueRamasse) {
+            pbdsATraiter.add(new PlastiqueBioDegradable(pp));
         }
-        totalRamassage = 0;
-        return pbds.size();
+
+        plastiqueRamasse.clear();
+
+        return pbdsATraiter.size();
     }
 
     /**
@@ -308,22 +354,28 @@ public class Simulation {
      * @param affiche si la méthode doit afficher les éléments
      */
     public void rejettePlastiquesBio(boolean affiche) {
-        for (PlastiqueBioDegradable pbd : pbds) {
+        for (PlastiqueBioDegradable pbd : pbdsATraiter) {
             int x = randEntre(0, 4);
             int y = randEntre(0, 4);
-            pbd.setPosition(x, y);
-            terrain.setCase(x, y, pbd);
-            if (affiche) System.out.println(pbd);
+            if (terrain.caseEstVide(x, y)) {
+                pbds.add(pbd);
+                pbd.setPosition(x, y);
+                terrain.setCase(x, y, pbd);
+//              if (affiche) System.out.println(pbd);
+            }
         }
+        pbdsATraiter.clear();
     }
 
     /**
      * Essaye de faire décomposer le plastique biodégradable.
+     *
+     * @return la quantité de plastique biodégradable décomposé
      */
-    public void decomposerTout() {
+    public int decomposerTout() {
+        int qteDecomposee = 0;
         ArrayList<PlastiqueBioDegradable> aEnlever = new ArrayList<PlastiqueBioDegradable>();
         for (PlastiqueBioDegradable pbd : pbds) {
-            pbd.augmenteAge();
             if (pbd.estDecompositionPossible()) {
                 terrain.videCase(pbd.getX(), pbd.getY());
                 aEnlever.add(pbd);
@@ -331,15 +383,19 @@ public class Simulation {
             }
         }
         pbds.removeAll(aEnlever);
+        return qteDecomposee;
     }
 
     /**
-     * Renvoie la quantité de plastique biodégradable décomposé.
-     *
-     * @return la quantité de plastique biodégradable décomposé
+     * Augmente l'âge de toutes les ressources.
      */
-    public int getQteDecomposee() {
-        return qteDecomposee;
+    public void augmenteAge() {
+        ArrayList<Ressource> toutesRessources = new ArrayList<Ressource>();
+        toutesRessources.addAll(pps);
+        toutesRessources.addAll(pbds);
+        for (Ressource r : toutesRessources) {
+            if (r instanceof Plastique) ((Plastique) r).augmenteAge();
+        }
     }
 
     /**
@@ -347,7 +403,7 @@ public class Simulation {
      * @param max la borne supérieure
      * @return un nombre entier appartenant à [min, max]
      */
-    private int randEntre(int min, int max) {
+    public static int randEntre(int min, int max) {
         return (int) (Math.random() * Math.abs(max + 1 - min) + min);
     }
 

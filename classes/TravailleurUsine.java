@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Représentation d'un Travailleur à l'usine, agent qui parcourt le terrain,
  * ramasse et stocke du plastique polluant lorsqu'il en trouve. Il peut aussi
@@ -8,6 +10,8 @@
  */
 
 public class TravailleurUsine extends Collecteur {
+    private final ArrayList<PlastiquePolluant> collectes;
+
     /**
      * Constructeur qui initialise la capacité de collecte et de stockage du TravailleurUsine
      *
@@ -17,6 +21,33 @@ public class TravailleurUsine extends Collecteur {
      */
     public TravailleurUsine(int capaciteDeCollecte, int capaciteDeStockage, Terrain t) {
         super("TravailleurUsine", t, capaciteDeCollecte, capaciteDeStockage);
+
+        this.collectes = new ArrayList<PlastiquePolluant>();
+    }
+
+    /**
+     * Permet de collecter la ressource qui peut se trouver
+     * dans la même case que le travailleur d'usine.
+     *
+     * @return le volume de la collecte
+     * @throws Exception si la collecte n'est pas possible pour une raison fatale
+     */
+    @Override
+    public int collecter() throws Exception {
+        int nbCollecte = super.collecter();
+        if (nbCollecte != -1) {
+            collectes.add(new PlastiquePolluant(nbCollecte, -1));
+        }
+        return nbCollecte;
+    }
+
+    /**
+     * Renvoie les collectes de plastique polluant.
+     *
+     * @return les collectes de plastique polluant
+     */
+    public ArrayList<PlastiquePolluant> getCollectes() {
+        return collectes;
     }
 
     /**
@@ -36,6 +67,13 @@ public class TravailleurUsine extends Collecteur {
         // si le recyclage n'est pas possible, on retourne false.
         return ressourceACollecter instanceof PlastiquePolluant &&
                 ((PlastiquePolluant) ressourceACollecter).estRecyclagePossible();
+    }
+
+    @Override
+    public int videCollecte() {
+        int nbCollecte = super.videCollecte();
+        collectes.clear();
+        return nbCollecte;
     }
 
     /**

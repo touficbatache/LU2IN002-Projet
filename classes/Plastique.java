@@ -17,7 +17,7 @@ public abstract class Plastique extends Ressource {
      */
     public Plastique(String type, int qte) {
         super(type, qte);
-        age = 0; // à l'instant du dépôt ou de création
+        age = 1; // à l'instant du dépôt ou de création
     }
 
     /**
