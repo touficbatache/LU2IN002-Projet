@@ -1,5 +1,5 @@
 /**
- * Classe mère des plastiques polluant et bio-dégradable.
+ * Classe mère des plastiques polluant et biodégradable.
  * Classes filles sont {@link PlastiquePolluant} et {@link PlastiqueBioDegradable}.
  *
  * @author Toufic BATACHE (LU2IN002 2022dec)

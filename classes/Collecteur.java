@@ -1,6 +1,7 @@
 /**
  * Généralisation des méthodes communes aux collecteurs.
- * Utilisée par {@link TechnicienPetrolier} et {@link TravailleurUsine}.
+ * Classe mère des techniciens pétroliers et des travailleurs d'usine.
+ * Classes filles sont {@link TechnicienPetrolier} et {@link TravailleurUsine}.
  *
  * @author Toufic BATACHE (LU2IN002 2022dec)
  * @author Haya MAMLOUK (LU2IN002 2022dec)
@@ -14,8 +15,10 @@ public abstract class Collecteur extends Agent {
     /**
      * Constructeur qui initialise l'agent collecteur avec un type et un terrain
      *
-     * @param type type d'Agent
-     * @param t    terrain sur lequel se trouve l'Agent
+     * @param type type d'agent
+     * @param t    terrain sur lequel se trouve l'agent
+     * @param capaciteDeCollecte capacité de collecte de l'agent
+     * @param capaciteDeStockage capacité de stockage de l'agent
      */
     public Collecteur(String type, Terrain t, int capaciteDeCollecte, int capaciteDeStockage) {
         super(type, t);
