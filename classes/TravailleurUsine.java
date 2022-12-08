@@ -10,8 +10,8 @@
  */
 
 public class TravailleurUsine extends Agent implements Collecteur {
-    private int capaciteDeCollecte;
-    private int capaciteDeStockage;
+    private final int capaciteDeCollecte;
+    private final int capaciteDeStockage;
     private int qteCollectee;
 
     /**
@@ -52,16 +52,13 @@ public class TravailleurUsine extends Agent implements Collecteur {
             return new StatutReponse(false, "Le recyclage n'est plus possible.");
         }
 
-        int aCollecter = Math.min(Math.min(ressourceACollecter.getQuantite(), capaciteDeCollecte), getCapaciteDeStockage() - getQuantiteCollectee());
-        // if (getQuantiteCollectee() + aCollecter > getCapaciteDeStockage()) {
-        //     return new StatutReponse(false, "Je ne peux pas stocker plus de plastique avec moi. Besoin de déposer à l'usine.");
-        // }
+        int aCollecter = Math.min(Math.min(ressourceACollecter.getQuantite(), capaciteDeCollecte), getCapaciteDeStockage() - qteCollectee);
         ressourceACollecter.setQuantite(ressourceACollecter.getQuantite() - aCollecter);
         if (ressourceACollecter.getQuantite() == 0) {
             getTerrain().videCase(ressourceACollecter.getX(), ressourceACollecter.getY());
         }
         qteCollectee += aCollecter;
-        return new StatutReponse(true, "J'ai collecté " + aCollecter + "kg de plastique. J'ai " + getQuantiteCollectee() + "kg en tout.");
+        return new StatutReponse(true, "J'ai collecté " + aCollecter + "kg de plastique. J'ai " + qteCollectee + "kg en tout.");
     }
 
     @Override
@@ -70,18 +67,13 @@ public class TravailleurUsine extends Agent implements Collecteur {
     }
 
     @Override
-    public int getQuantiteCollectee() {
-        return qteCollectee;
-    }
-
-    @Override
     public boolean estPlein() {
-        return getQuantiteCollectee() >= getCapaciteDeStockage();
+        return qteCollectee >= getCapaciteDeStockage();
     }
 
     @Override
     public int videCollecte() {
-        int qte = getQuantiteCollectee();
+        int qte = qteCollectee;
         qteCollectee = 0;
         return qte;
     }
@@ -95,6 +87,6 @@ public class TravailleurUsine extends Agent implements Collecteur {
         return super.toString() +
         " Je peux stocker " + getCapaciteDeStockage() + "kg de plastique avec moi." +
         " À chaque collecte, je peux ramasser " + capaciteDeCollecte + "kg de plastique polluant" +
-        " et j'en ai déjà " + getQuantiteCollectee() + "kg sur moi.";
+        " et j'en ai déjà " + qteCollectee + "kg sur moi.";
     }
 }
