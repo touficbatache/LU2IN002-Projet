@@ -1,11 +1,11 @@
 /**
  *
  * Simulation du terrain. Elle contient et modifie plusieurs transformations :
- * -la réation d'une liste de TechnicienPetrolier
+ * -la création d'une liste de TechnicienPetrolier
  * -la création d'une liste de TravailleurUsine
- * -la la creation de Petrole
+ * -la creation de Pétrole
  * - la création du plastique à partir du pétrole,
- * - le recyclage du plastique polluant en plastique bio-dégradable.
+ * - le recyclage du plastique polluant en plastique biodégradable.
  * -la décomposition du plastique biodégradable jeter dans le terrain
  *
  * @author Toufic BATACHE (LU2IN002 2022dec)
