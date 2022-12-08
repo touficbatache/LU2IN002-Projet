@@ -67,20 +67,6 @@ public class TestSimulation {
                 System.out.println(e.getMessage());
             }
 
-//            if (nbPlastiquesBio != null) {
-//                // Affiche terrain
-//                simulation.afficheTerrain(7);
-//
-//                // Appelle jusqu'à ce qu'il n'y ait plus aucun plastique
-//                while (simulation.getQteDecomposee() != Integer.parseInt(nbPlastiquesBio)) {
-//                    // Essaye de décomposer le plastique biodégradable jeté dans l'eau
-//                    simulation.decomposerTout();
-//                    System.out.println(simulation.getQteDecomposee() + " plastiques biodégradables se sont décomposés \n");
-//                    // Affiche terrain
-//                    simulation.afficheTerrain(7);
-//                }
-//            }
-
             // Affiche terrain
             simulation.afficheTerrain(7);
             // Essaye de décomposer le plastique biodégradable jeté dans l'eau
