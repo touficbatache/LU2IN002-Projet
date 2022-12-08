@@ -37,6 +37,17 @@ public class Simulation {
         techniciens.addAll(tps);
     }
 
+    public void createTechniciens(){
+        int nbTPs = randEntre(2, 6);
+        for (int i = 0; i < nbTPs; i++) {
+            int capaciteDeCollecte = randEntre(20, 40);
+            int capaciteDeBarril = randEntre(30, 50);
+            int nbBarrils = randEntre(5, 10);
+            techniciens.add(new TechnicienPetrolier(capaciteDeCollecte, capaciteDeBarril, nbBarrils, terrain));
+            System.out.println(techniciens.get(i));
+        }
+    }
+
     /**
      * Fait parcourir le terrain aux Téchniciens Pétroliers, qui collectent du
      * pétrole s'ils en trouvent.
@@ -176,6 +187,10 @@ public class Simulation {
 
     public int getQteRecycle() {
         return qteRecycle;
+    }
+
+    private static int randEntre(int min, int max) {
+        return (int) (Math.random() * Math.abs(max - min) + min);
     }
 
     @Override
