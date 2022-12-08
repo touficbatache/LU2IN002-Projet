@@ -319,14 +319,16 @@ public class Simulation {
      * Essaye de faire décomposer le plastique biodégradable.
      */
     public void decomposerTout() {
+        ArrayList<PlastiqueBioDegradable> aEnlever = new ArrayList<PlastiqueBioDegradable>();
         for (PlastiqueBioDegradable pbd : pbds) {
             pbd.augmenteAge();
             if (pbd.estDecompositionPossible()) {
                 terrain.videCase(pbd.getX(), pbd.getY());
             }
-            pbds.remove(pbd);
+            aEnlever.add(pbd);
             qteDecomposee++;
         }
+        pbds.removeAll(aEnlever);
     }
 
     /**
