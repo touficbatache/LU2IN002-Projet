@@ -1,68 +1,66 @@
 /**
- *
- *  Test de la Simulation de l'écosystème créé.
+ * Test de la Simulation de l'écosystème créé.
  *
  * @author Toufic BATACHE (LU2IN002 2022dec)
  * @author Haya MAMLOUK (LU2IN002 2022dec)
- * 
  */
 
-import java.util.ArrayList;
-
 public class TestSimulation {
-    public static final int[] terrainSize = { 10, 10 };
-
     public static void main(String[] args) {
-        Terrain terrain = new Terrain(terrainSize[0], terrainSize[1]);
-        terrain.affiche(2);
-        System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+        // Instance de classe Simulation
+        Simulation simulation = Simulation.getInstance();
 
-        Simulation u = new Simulation(terrain, 20);
+//        // Paramètres de simulation
+//        simulation.setQteMaxRecyclable(20); // ne peut pas recycler plus de 20 plastiques
 
-        u.createPetrole();
-        
-        terrain.affiche(7);
-        System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+        // Affiche terrain
+        simulation.afficheTerrain(2);
 
-        System.out.println("Nos Techniciens Pétroliers :");
-        u.createTechniciens();
+        // Ajouter le pétrole au terrain
+        simulation.createPetrole();
 
-        u.runTechniciens();
-        terrain.affiche(7);
-        System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+        // Affiche terrain
+        simulation.afficheTerrain(7);
+        // Crée et affiche les Techniciens Pétroliers
+        simulation.createTechniciens(true);
+        // Parcourir et extraire le pétrole
+        simulation.runTechniciens();
+        // Affiche terrain
+        simulation.afficheTerrain(7);
 
+        // Vider les extractions de pétrole, produire du plastique et polluer le terrain
         System.out.println("Nos Techniciens Pétroliers après extraction :");
-        int totalExtraction = 0;
-        u.extractionPetrole();
+        int totalExtraction = simulation.videExtractionPetrole();
         System.out.println("Ils ont collecté " + totalExtraction + "L en tout.\n");
-
         System.out.println("L'usine produit du plastique...");
-        u.produirePlastique();
-        u.setPPS();
-        terrain.affiche(7);
-        System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+        simulation.produirePlastique();
+        simulation.polluer(true);
+        System.out.println("Du plastique polluant a été jeté dans l'eau\n");
 
-        System.out.println("Nos Travailleurs à l'usine :");
-        u.createTravailleurs();
-        u.runTravailleurs();
-        terrain.affiche(7);
-        System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+        // Affiche terrain
+        simulation.afficheTerrain(7);
+        // Crée et affiche les Travailleurs d'usine
+        simulation.createTravailleurs(true);
+        // Parcourir et collecter le plastique polluant
+        simulation.runTravailleurs();
+        // Affiche terrain
+        simulation.afficheTerrain(7);
 
+        // Vider les ramassages de plastique, tout recycler et les laisser se décomposer dans le terrain
         System.out.println("Nos Travailleurs à l'usine après ramassage :");
-        u.ramassage();
-        System.out.println("Ils ont collecté " + u.getTotalRamassage() + "kg de plastique polluant en tout.\n");
-
+        int totalRamassage = simulation.videRamassagePlastique();
+        System.out.println("Ils ont collecté " + totalRamassage + "kg de plastique polluant en tout.\n");
         System.out.println("Recyclage en cours...");
-        u.recyclerTout();
-        u.setPBDS();
-        System.out.println("Du plastique biodégradable a été jetté dans l'eau \n");
-        System.out.println("Informations sur le terrain:\n" + terrain + "\n");
-        terrain.affiche(7);
+        simulation.recyclerTout();
+        simulation.rejettePlastiquesBio(true);
+        System.out.println("Du plastique biodégradable a été jeté dans l'eau\n");
 
-        u.decomposerTout();
-
-        System.out.println(u.getQteDecomp() + " plastiques biodegradables se sont décomposés \n");
-        System.out.println("Informations sur le terrain:\n" + terrain + "\n");
-        terrain.affiche(7);
+        // Affiche terrain
+        simulation.afficheTerrain(7);
+        // Essaye de décomposer le plastique biodégradable jeté dans l'eau
+        simulation.decomposerTout();
+        System.out.println(simulation.getQteDecomposee() + " plastiques biodégradables se sont décomposés \n");
+        // Affiche terrain
+        simulation.afficheTerrain(7);
     }
 }

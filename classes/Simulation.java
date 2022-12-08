@@ -14,62 +14,91 @@
 import java.util.ArrayList;
 
 public class Simulation {
-    private Terrain terrain;
+    private static Simulation INSTANCE;
 
-    private ArrayList<TechnicienPetrolier> techniciens = new ArrayList<TechnicienPetrolier>();
+    public static Simulation getInstance() {
+        if (INSTANCE == null) INSTANCE = new Simulation();
+        return INSTANCE;
+    }
 
-    private ArrayList<TravailleurUsine> travailleurs = new ArrayList<TravailleurUsine>();
+    private final int[] SIZE_TERRAIN = {10, 10};
+    private final Terrain terrain;
+    private final int nbPetrole;
+    private final int nbTPs;
+    private final int nbTUs;
 
-    private ArrayList<PlastiqueBioDegradable> pbds = new ArrayList<PlastiqueBioDegradable>();
+    private final ArrayList<TechnicienPetrolier> techniciens;
+    private int totalExtraction;
 
-    private ArrayList<PlastiquePolluant> pps = new ArrayList<PlastiquePolluant>();
+    private final ArrayList<TravailleurUsine> travailleurs;
+    private int totalRamassage;
 
-    private int qteRecycle = 0;
-    private int qteMaxRecyclable;
-    private int totalExtraction = 0;
-    private int totalRamassage = 0;
+    private final ArrayList<PlastiqueBioDegradable> pbds;
 
-    private int nbTPs;
-    private int nbPetrole;
-    private int nbTUs;
-    int qtetDecomp = 0;
+    private final ArrayList<PlastiquePolluant> pps = new ArrayList<PlastiquePolluant>();
+    private int qteDecomposee;
 
-    public Simulation(Terrain terrain, int qteMaxRecyclable) {
-        this.terrain = terrain;
-        this.qteMaxRecyclable = qteMaxRecyclable;
-        nbTPs = randEntre(2, 6);
+    private Simulation() {
+        this.terrain = new Terrain(SIZE_TERRAIN[0], SIZE_TERRAIN[1]);
         nbPetrole = randEntre(2, 6);
+        nbTPs = randEntre(2, 6);
         nbTUs = randEntre(3, 6);
+
+        techniciens = new ArrayList<TechnicienPetrolier>();
+        totalExtraction = 0;
+
+        travailleurs = new ArrayList<TravailleurUsine>();
+        totalRamassage = 0;
+
+        pbds = new ArrayList<PlastiqueBioDegradable>();
+        qteDecomposee = 0;
     }
 
-    public ArrayList<TechnicienPetrolier> getTechniciens() {
-        return techniciens;
+    // Méthodes terrain
+
+    /**
+     * Affiche le terrain.
+     *
+     * @param nbCaracteres le nombre de caractères que doit afficher chaque case
+     */
+    public void afficheTerrain(int nbCaracteres) {
+        terrain.affiche(nbCaracteres);
+        System.out.println("Informations sur le terrain:\n" + terrain + "\n");
     }
 
-    public void addTechniciens(ArrayList<TechnicienPetrolier> tps) {
-        techniciens.addAll(tps);
+    /**
+     * Affiche le terrain avec 7 caractères.
+     */
+    public void afficheTerrain() {
+        afficheTerrain(7);
     }
 
-    public void createTechniciens() {
+    /**
+     * Crée et affiche (si demandé) les Techniciens Pétroliers.
+     *
+     * @param affiche si la méthode doit afficher les techniciens
+     */
+    public void createTechniciens(boolean affiche) {
+        if (affiche) System.out.println("Nos Techniciens Pétroliers :");
+
         for (int i = 0; i < nbTPs; i++) {
             int capaciteDeCollecte = randEntre(20, 40);
-            int capaciteDeBarril = randEntre(30, 50);
-            int nbBarrils = randEntre(5, 10);
-            techniciens.add(new TechnicienPetrolier(capaciteDeCollecte, capaciteDeBarril, nbBarrils, terrain));
-            System.out.println(techniciens.get(i));
+            int capaciteDeBaril = randEntre(30, 50);
+            int nbBarils = randEntre(5, 10);
+            techniciens.add(new TechnicienPetrolier(capaciteDeCollecte, capaciteDeBaril, nbBarils, terrain));
+            if (affiche) System.out.println(techniciens.get(i));
         }
     }
 
-
     /**
-     * Fait parcourir le terrain aux Téchniciens Pétroliers, qui collectent du
-     * pétrole s'ils en trouvent.
+     * Fait parcourir le terrain aux Techniciens Pétroliers,
+     * qui extraient du pétrole s'ils en trouvent.
      */
     public void runTechniciens() {
         for (TechnicienPetrolier technicien : techniciens) {
-            System.out.println("\nLe Téchnicien numéro " + technicien.ident + " parcourt le terrain.");
-            for (int i = 0; i < TestSimulation.terrainSize[0] && !technicien.estPlein(); i++) {
-                for (int j = 0; j < TestSimulation.terrainSize[1] && !technicien.estPlein(); j++) {
+            System.out.println("\nLe Technicien numéro " + technicien.ident + " parcourt le terrain.");
+            for (int i = 0; i < SIZE_TERRAIN[0] && !technicien.estPlein(); i++) {
+                for (int j = 0; j < SIZE_TERRAIN[1] && !technicien.estPlein(); j++) {
                     if (terrain.getCase(i, j) instanceof Petrole) {
                         Petrole p = (Petrole) terrain.getCase(i, j);
                         System.out.println("J'ai trouvé " + p.getQuantite() + "L de pétrole en (" + p.getX() + ", "
@@ -87,15 +116,20 @@ public class Simulation {
                 }
             }
 
-            terrain.affiche(7);
-            System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+            afficheTerrain();
         }
     }
 
+    /**
+     * Vide la liste de techniciens.
+     */
     public void removeTechniciens() {
         techniciens.clear();
     }
 
+    /**
+     * Ajouter le pétrole au terrain.
+     */
     public void createPetrole() {
         for (int i = 0; i < nbPetrole; i++) {
             int x = randEntre(0, 4);
@@ -107,80 +141,78 @@ public class Simulation {
         }
     }
 
-    public void extractionPetrole() {
-        for (TechnicienPetrolier tp : getTechniciens()) {
-            System.out.println(tp);
-            totalExtraction += tp.getQuantiteCollectee();
-        }
-    }
-
     /**
-     * Vide la totalité du pétrole stocké dans les barrils des téchniciens.
+     * Vide la totalité du pétrole stocké dans les barils des techniciens.
      *
-     * @return le volume de pétrole total extrait par les téchniciens
+     * @return le volume de pétrole total extrait par les techniciens
      */
     public int videExtractionPetrole() {
-        int qteTotalExtraction = totalExtraction;
-        totalExtraction = 0;
-        return qteTotalExtraction;
+        int qteExtraction = 0;
+        for (TechnicienPetrolier tp : techniciens) {
+            qteExtraction += tp.videCollecte();
+        }
+        totalExtraction += qteExtraction;
+        return qteExtraction;
     }
 
     /**
-     * Produit du plastique polluant à partir du pétrole déposé auparavant dans l'usine.
-     *
-     * @return le plastique polluant produit
-     *
+     * Produit du plastique polluant à partir du pétrole total extrait.
      */
     public void produirePlastique() {
         // TODO: throw some exception if no petrole in stock
         // if (videExtractionPetrole() == 0) {
         //     ...exception
         // }
-        int nbPlastiqueProduit = (int) (videExtractionPetrole() / 100.0);
+        int nbPlastiqueProduit = (int) (totalExtraction / 100.0);
         for (int i = 0; i < nbPlastiqueProduit; i++) {
             int randQte = (int) (Math.random() * 4 + 3); // entre 3 et 7
-            int ageLimiteDeRecyclage = Simulation.randEntre(5, 7);
+            int ageLimiteDeRecyclage = randEntre(5, 7);
             pps.add(new PlastiquePolluant(randQte, ageLimiteDeRecyclage));
         }
+        totalExtraction = 0;
     }
 
-    public void setPPS() {
+    /**
+     * Pollue le terrain avec des plastiques polluants.
+     *
+     * @param affiche si la méthode doit afficher les éléments
+     */
+    public void polluer(boolean affiche) {
         for (PlastiquePolluant pp : pps) {
             int x = randEntre(5, 9);
             int y = randEntre(0, 4);
             pp.setPosition(x, y);
             terrain.setCase(x, y, pp);
-            System.out.println(pp);
+            if (affiche) System.out.println(pp);
         }
+        pps.clear();
     }
 
-    public ArrayList<TravailleurUsine> getTravailleurs() {
-        return travailleurs;
-    }
-
-    public void addTravailleurs(ArrayList<TravailleurUsine> tus) {
-        travailleurs.addAll(tus);
-    }
-
-    public void createTravailleurs() {
+    /**
+     * Crée et affiche (si demandé) les Travailleurs d'usine.
+     *
+     * @param affiche si la méthode doit afficher les travailleurs
+     */
+    public void createTravailleurs(boolean affiche) {
+        if (affiche) System.out.println("Nos Travailleurs à l'usine :");
 
         for (int i = 0; i < nbTUs; i++) {
             int capaciteDeCollecte = randEntre(1, 1);
             int capaciteDeStockage = randEntre(7, 13);
             travailleurs.add(new TravailleurUsine(capaciteDeCollecte, capaciteDeStockage, terrain));
-            System.out.println(travailleurs.get(i));
+            if (affiche) System.out.println(travailleurs.get(i));
         }
     }
 
     /**
-     * Fait parcourir le terrain aux Travailleurs d'usine, qui collectent du
-     * plastique polluant s'ils en trouvent.
+     * Fait parcourir le terrain aux Travailleurs d'usine,
+     * qui collectent du plastique polluant s'ils en trouvent.
      */
     public void runTravailleurs() {
         for (TravailleurUsine travailleur : travailleurs) {
             System.out.println("\nLe Travailleur numéro " + travailleur.ident + " parcourt le terrain.");
-            for (int i = 0; i < TestSimulation.terrainSize[0] && !travailleur.estPlein(); i++) {
-                for (int j = 0; j < TestSimulation.terrainSize[1] && !travailleur.estPlein(); j++) {
+            for (int i = 0; i < SIZE_TERRAIN[0] && !travailleur.estPlein(); i++) {
+                for (int j = 0; j < SIZE_TERRAIN[1] && !travailleur.estPlein(); j++) {
                     if (terrain.getCase(i, j) instanceof PlastiquePolluant) {
                         PlastiquePolluant tPP = (PlastiquePolluant) terrain.getCase(i, j);
                         System.out.println("J'ai trouvé " + tPP.getQuantite() + "kg de plastique en (" + tPP.getX()
@@ -198,32 +230,34 @@ public class Simulation {
                 }
             }
 
-            terrain.affiche(7);
-            System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+            afficheTerrain();
         }
     }
 
+    /**
+     * Vide la liste de travailleurs.
+     */
     public void removeTravailleurs() {
         travailleurs.clear();
     }
 
-    public void ramassage() {
-        for (TravailleurUsine tu : getTravailleurs()) {
-            System.out.println(tu);
-            totalRamassage += tu.getQuantiteCollectee();
-        }
-    }
-
-    public int getTotalRamassage() {
-        return totalRamassage;
-    }
-
+    /**
+     * Vide la totalité du plastique polluant stocké avec les travailleurs.
+     *
+     * @return le volume de plastique polluant total collecté par les travailleurs
+     */
     public int videRamassagePlastique() {
-        int qteTotalRamassage = totalRamassage;
-        totalRamassage = 0;
-        return qteTotalRamassage;
+        int qteRamassage = 0;
+        for (TravailleurUsine tu : travailleurs) {
+            qteRamassage += tu.videCollecte();
+        }
+        totalRamassage += qteRamassage;
+        return qteRamassage;
     }
 
+    /**
+     * Produit du plastique biodégradable à partir du plastique polluant total ramassé.
+     */
     public void recyclerTout() {
         // TODO: throw exception here too
         // if (qteRecycle >= qteMaxRecyclable) {
@@ -231,50 +265,66 @@ public class Simulation {
         // }
 
         int step = (int) (Math.random() * 2 + 2); // entre 2 et 4
-        int nbPlastiqueRamasse = videRamassagePlastique();
+        int nbPlastiqueRamasse = totalRamassage;
         int nbPBD = (int) Math.ceil((double) nbPlastiqueRamasse / step);
         for (int i = 0; i < nbPBD; i++) {
             int qte = Math.min(nbPlastiqueRamasse, step);
-            int dureeDeVie = Simulation.randEntre(3, 5);
+            int dureeDeVie = randEntre(3, 5);
             pbds.add(new PlastiqueBioDegradable(qte, dureeDeVie));
             nbPlastiqueRamasse -= qte;
         }
+        totalRamassage = 0;
     }
 
-    public void setPBDS() {
+    /**
+     * Rejette le plastique bio dans le terrain pour qu'il se décompose
+     *
+     * @param affiche si la méthode doit afficher les éléments
+     */
+    public void rejettePlastiquesBio(boolean affiche) {
         for (PlastiqueBioDegradable pbd : pbds) {
             int x = randEntre(0, 4);
             int y = randEntre(0, 4);
             pbd.setPosition(x, y);
             terrain.setCase(x, y, pbd);
-            System.out.println(pbd);
+            if (affiche) System.out.println(pbd);
         }
     }
 
+    /**
+     * Essaye de faire décomposer le plastique biodégradable.
+     */
     public void decomposerTout() {
         for (PlastiqueBioDegradable pbd : pbds) {
             pbd.augmenteAge();
             if (pbd.estDecompositionPossible()) {
                 terrain.videCase(pbd.getX(), pbd.getY());
             }
-            qtetDecomp++;
+            pbds.remove(pbd);
+            qteDecomposee++;
         }
     }
 
-    public int getQteDecomp() {
-        return qtetDecomp;
+    /**
+     * @return la quantité de plastique biodégradable décomposé
+     */
+    public int getQteDecomposee() {
+        return qteDecomposee;
     }
 
-    public int getQteRecycle() {
-        return qteRecycle;
-    }
-
-    public static int randEntre(int min, int max) {
+    /**
+     *
+     * @param min la borne inférieure
+     * @param max la borne supérieure
+     * @return un nombre entier appartenant à [min, max]
+     */
+    private int randEntre(int min, int max) {
         return (int) (Math.random() * Math.abs(max + 1 - min) + min);
     }
 
     @Override
     public String toString() {
-        return getQteRecycle() + "kg de plastique polluant ont été recyclés !";
+        return "Simulation d'un terrain de " + SIZE_TERRAIN[0] + "x" + SIZE_TERRAIN[1] +
+                " avec " + nbPetrole + " cases de pétrole et " + nbTPs + " travailleurs.";
     }
 }

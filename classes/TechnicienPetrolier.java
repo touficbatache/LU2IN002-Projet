@@ -11,23 +11,23 @@
 
 public class TechnicienPetrolier extends Agent implements Collecteur {
     private int capaciteDeCollecte;
-    private int capaciteDeBarril;
-    private int nbBarrils;
+    private int capaciteDeBaril;
+    private int nbBarils;
     private int qteCollectee;
 
     /**
-     * Constructeur qui initialise les différentes capacités du TechnicienPetrolier ainsi le terrain sur lequel il se trouve et le nombre de barrils
+     * Constructeur qui initialise les différentes capacités du TechnicienPetrolier ainsi le terrain sur lequel il se trouve et le nombre de barils
      * @param capaciteDeCollecte capacité de pétrole que peut collecter le TechnicienPetrolier
-     * @param capaciteDeBarril la capacité des barrils
-     * @param nbBarrils le nombre de barrils
+     * @param capaciteDeBaril la capacité des barils
+     * @param nbBarils le nombre de barils
      * @param t Terrain sur lequel se trouve le TechnicienPetrolier
      */
-    public TechnicienPetrolier(int capaciteDeCollecte, int capaciteDeBarril, int nbBarrils, Terrain t) {
+    public TechnicienPetrolier(int capaciteDeCollecte, int capaciteDeBaril, int nbBarils, Terrain t) {
         super("TechnicienPetrolier", t);
 
         this.capaciteDeCollecte = capaciteDeCollecte;
-        this.capaciteDeBarril = capaciteDeBarril;
-        this.nbBarrils = nbBarrils;
+        this.capaciteDeBaril = capaciteDeBaril;
+        this.nbBarils = nbBarils;
         this.qteCollectee = 0;
     }
 
@@ -65,7 +65,7 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
 
     @Override
     public int getCapaciteDeStockage() {
-        return capaciteDeBarril * nbBarrils;
+        return capaciteDeBaril * nbBarils;
     }
 
 
@@ -88,12 +88,12 @@ public class TechnicienPetrolier extends Agent implements Collecteur {
 
     /**
      * Renvoie des informations sur le TechinicienPetrolier
-     * @return l'ID et la position du TechnicienPetrolier, le nombre de barrils et leur capacité de stockage, la capacité de collecte et la quantité collectée
+     * @return l'ID et la position du TechnicienPetrolier, le nombre de barils et leur capacité de stockage, la capacité de collecte et la quantité collectée
      */
     @Override
     public String toString() {
         return super.toString()
-        + " J'ai " + nbBarrils + " barrils qui, réunis, peuvent contenir " + getCapaciteDeStockage() + "L de pétrole."
+        + " J'ai " + nbBarils + " barils qui, réunis, peuvent contenir " + getCapaciteDeStockage() + "L de pétrole."
         + " À chaque collecte, je peux extraire " + capaciteDeCollecte + "L seulement et j'en ai déjà " + getQuantiteCollectee() + "L.";
     }
 }
