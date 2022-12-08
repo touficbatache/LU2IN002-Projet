@@ -14,7 +14,7 @@ public class TestSimulation {
 //        simulation.setQteMaxRecyclable(20); // ne peut pas recycler plus de 20 plastiques
 
         // Affiche terrain
-        simulation.afficheTerrain(2);
+        simulation.afficheTerrain();
 
         // Ajouter le pétrole au terrain
         simulation.createPetrole();
