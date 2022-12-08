@@ -38,6 +38,10 @@ public class TravailleurUsine extends Agent implements Collecteur {
             return new StatutReponse(false, "La ressource n'est pas du plastique polluant.");
         }
 
+        if (!((PlastiquePolluant) ressourceACollecter).estRecyclagePossible()) {
+            return new StatutReponse(false, "Le recyclage n'est plus possible.");
+        }
+
         int aCollecter = Math.min(Math.min(ressourceACollecter.getQuantite(), capaciteDeCollecte), getCapaciteDeStockage() - getQuantiteCollectee());
         // if (getQuantiteCollectee() + aCollecter > getCapaciteDeStockage()) {
         //     return new StatutReponse(false, "Je ne peux pas stocker plus de plastique avec moi. Besoin de déposer à l'usine.");

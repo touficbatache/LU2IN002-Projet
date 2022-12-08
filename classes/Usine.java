@@ -1,12 +1,10 @@
 /**
- *
  * Usine qui gère le terrain. Elle contient et modifie plusieurs transformations :
  * - la création du plastique à partir du pétrole,
  * - le recyclage du plastique polluant en plastique bio-dégradable.
  *
  * @author Toufic BATACHE (LU2IN002 2022dec)
  * @author Haya MAMLOUK (LU2IN002 2022dec)
- * 
  */
 
 import java.util.ArrayList;
@@ -61,7 +59,7 @@ public class Usine {
             }
 
             terrain.affiche(7);
-		    System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+            System.out.println("Informations sur le terrain:\n" + terrain + "\n");
         }
     }
 
@@ -71,22 +69,22 @@ public class Usine {
 
     /**
      * Vide la totalité du pétrole stocké dans les barrils des téchniciens.
-     * 
+     *
      * @return le volume de pétrole total extrait par les téchniciens
      */
     public int videExtractionPetrole() {
         int totalExtraction = 0;
-		for (TechnicienPetrolier tp : techniciens) {
-			totalExtraction += tp.videCollecte();
-		}
+        for (TechnicienPetrolier tp : techniciens) {
+            totalExtraction += tp.videCollecte();
+        }
         return totalExtraction;
     }
 
     /**
      * Produit du plastique polluant à partir du pétrole déposé auparavant dans l'usine.
-     * 
+     *
      * @return le plastique polluant produit
-     * 
+     *
      */
     public ArrayList<PlastiquePolluant> produirePlastique() {
         // TODO: throw some exception if no petrole in stock
@@ -96,8 +94,9 @@ public class Usine {
         ArrayList<PlastiquePolluant> pps = new ArrayList<PlastiquePolluant>();
         int nbPlastiqueProduit = (int) (videExtractionPetrole() / 100.0);
         for (int i = 0; i < nbPlastiqueProduit; i++) {
-            int randQte = (int) (Math.random() * 4 + 3); // entre 3 et 7
-            pps.add(new PlastiquePolluant(randQte));
+            int randQte = Simulation.randEntre(3, 7); // entre 3 et 7
+            int ageLimiteDeRecyclage = Simulation.randEntre(5, 7);
+            pps.add(new PlastiquePolluant(randQte, ageLimiteDeRecyclage));
         }
         return pps;
     }
@@ -137,19 +136,19 @@ public class Usine {
             }
 
             terrain.affiche(7);
-		    System.out.println("Informations sur le terrain:\n" + terrain + "\n");
+            System.out.println("Informations sur le terrain:\n" + terrain + "\n");
         }
     }
-    
+
     public void removeTravailleurs() {
         travailleurs.clear();
     }
-    
+
     public int videRamassagePlastique() {
         int totalRamassage = 0;
-		for (TravailleurUsine tu : travailleurs) {
-			totalRamassage += tu.videCollecte();
-		}
+        for (TravailleurUsine tu : travailleurs) {
+            totalRamassage += tu.videCollecte();
+        }
         return totalRamassage;
     }
 
@@ -160,12 +159,13 @@ public class Usine {
         // }
 
         ArrayList<PlastiqueBioDegradable> pbds = new ArrayList<PlastiqueBioDegradable>();
-        int step = (int) (Math.random() * 2 + 2); // entre 2 et 4
+        int step = Simulation.randEntre(2, 4);
         int nbPlastiqueRamasse = videRamassagePlastique();
         int nbPBD = (int) Math.ceil((double) nbPlastiqueRamasse / step);
         for (int i = 0; i < nbPBD; i++) {
             int qte = Math.min(nbPlastiqueRamasse, step);
-            pbds.add(new PlastiqueBioDegradable(qte));
+            int dureeDeVie = Simulation.randEntre(3, 5);
+            pbds.add(new PlastiqueBioDegradable(qte, dureeDeVie));
             nbPlastiqueRamasse -= qte;
         }
         return pbds;

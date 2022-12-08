@@ -104,7 +104,9 @@ public class Simulation {
         int qtetDecomp = 0;
         for (PlastiqueBioDegradable pbd : pbds) {
             pbd.augmenteAge();
-            pbd.decomposition(terrain);
+            if (pbd.estDecompositionPossible()) {
+                terrain.videCase(pbd.getX(), pbd.getY());
+            }
             qtetDecomp++;
         }
 
@@ -113,7 +115,7 @@ public class Simulation {
         terrain.affiche(7);
     }
 
-    private static int randEntre(int min, int max) {
-        return (int) (Math.random() * Math.abs(max - min) + min);
+    public static int randEntre(int min, int max) {
+        return (int) (Math.random() * Math.abs(max + 1 - min) + min);
     }
 }

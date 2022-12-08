@@ -10,25 +10,21 @@
  */
 
 public class PlastiquePolluant extends Plastique {
-    private boolean estRecycle = false;
+    private int ageLimiteDeRecyclage;
 
-    public PlastiquePolluant(int qte) {
+    public PlastiquePolluant(int qte, int ageLimiteDeRecyclage) {
         super("PP", qte);
+
+        this.ageLimiteDeRecyclage = ageLimiteDeRecyclage;
     }
 
-    public PlastiqueBioDegradable recyclage() {
-        estRecycle = true;
-        return new PlastiqueBioDegradable(getQuantite());
+    public boolean estRecyclagePossible() {
+        return getAge() < ageLimiteDeRecyclage;
     }
 
     @Override
     public String toString() {
-        String s = super.toString();
-        if (estRecycle) {
-            s += " Le plastique est recyclé";
-        } else {
-            s += " Le plastique n'est pas recyclé";
-        }
-        return s;
+        return super.toString() +
+                ((estRecyclagePossible()) ? " S'est recyclé !" : " Ne peux plus être recyclé");
     }
 }
