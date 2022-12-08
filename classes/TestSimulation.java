@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /**
  * Test de la Simulation de l'écosystème créé.
  *
