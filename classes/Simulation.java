@@ -35,7 +35,7 @@ public class Simulation {
     private final ArrayList<TravailleurUsine> travailleurs;
     private ArrayList<PlastiquePolluant> plastiqueRamasse;
 
-    private final ArrayList<PlastiquePolluant> pps = new ArrayList<PlastiquePolluant>();
+    private final ArrayList<PlastiquePolluant> pps;
 
     private final ArrayList<PlastiqueBioDegradable> pbds;
     private final ArrayList<PlastiqueBioDegradable> pbdsATraiter;
@@ -52,8 +52,31 @@ public class Simulation {
         travailleurs = new ArrayList<TravailleurUsine>();
         plastiqueRamasse = new ArrayList<PlastiquePolluant>();
 
+        pps=new ArrayList<PlastiquePolluant>();
+
         pbds = new ArrayList<PlastiqueBioDegradable>();
         pbdsATraiter = new ArrayList<PlastiqueBioDegradable>();
+    }
+
+    /**
+     * Constructeur qui copie une simulation existante à un moment donné (pour des statistiques et études potentielles)
+     */
+    private Simulation(Simulation sim){
+        terrain=new Terrain(sim.terrain.nbLignes,sim.terrain.nbColonnes);
+        nbPetrole= sim.nbPetrole;
+        nbTPs= sim.nbTPs;
+        nbTUs= sim.nbTUs;
+
+        techniciens= new ArrayList<TechnicienPetrolier>(sim.techniciens);
+        totalExtraction=sim.totalExtraction;
+
+        travailleurs= new ArrayList<TravailleurUsine>(sim.travailleurs);
+        plastiqueRamasse= new ArrayList<PlastiquePolluant>(sim.plastiqueRamasse);
+
+        pps=new ArrayList<PlastiquePolluant>(sim.pps);
+
+        pbds=new ArrayList<PlastiqueBioDegradable>(sim.pbds);
+        pbdsATraiter=new ArrayList<PlastiqueBioDegradable>(sim.pbdsATraiter);
     }
 
     // Méthodes terrain
