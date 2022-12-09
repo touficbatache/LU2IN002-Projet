@@ -420,6 +420,16 @@ public class Simulation {
     }
 
     /**
+     * Renvoie une copie de Simulation dans son état actuel
+     * (pour des statistiques et études potentielles).
+     *
+     * @return une copie de Simulation dans son état actuel
+     */
+    public Simulation saveState() {
+        return new Simulation(this);
+    }
+
+    /**
      * @param min la borne inférieure
      * @param max la borne supérieure
      * @return un nombre entier appartenant à [min, max]

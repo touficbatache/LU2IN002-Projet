@@ -76,6 +76,15 @@ public class TestSimulation {
             simulation.afficheTerrain(7);
 
             simulation.augmenteAge();
+
+            // Ici, on peut faire une copie de la simulation pour enregistrer
+            // l'état actuel et l'étudier par la suite. On utilise :
+            //
+            // simulation.saveState();
+            //
+            // ou, si on est hors du main, ou dans une autre classe, on peut utiliser :
+            //
+            // Simulation.getInstance().saveState();
         }
     }
 }
