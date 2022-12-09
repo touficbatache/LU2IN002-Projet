@@ -65,25 +65,13 @@ public abstract class Agent {
     }
 
     /**
-     * Vérifie si les coordonnées sont présentes sur le terrain et déplace l'Agent dans la nouvelle case si possible
+     * Vérifie si les coordonnées sont présentes sur le terrain et déplace l'Agent dans la nouvelle case
      *
      * @param xnew nouvelle abscisse
      * @param ynew nouvelle ordonnée
      * @return si l'Agent a été déplacé dans la nouvelle case
      */
     public boolean seDeplacer(int xnew, int ynew) {
-        // if (!terrain.sontValides(xnew, ynew)) {
-        //     System.out.println("Case hors du terrain ! Essayez à nouveau...");
-        //     return false;
-        // }
-
-        // if (!terrain.caseEstVide(xnew, ynew)) {
-        //     System.out.println("Case déjà occupée ! Essayez à nouveau...");
-        //     return false;
-        // }
-
-        // TODO: change la position de l’objet courant sur le terrain si c’est possible (case non occupée par un autre agent)
-
         posX = xnew;
         posY = ynew;
         return true;
