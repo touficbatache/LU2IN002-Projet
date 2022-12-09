@@ -52,7 +52,7 @@ public class Simulation {
         travailleurs = new ArrayList<TravailleurUsine>();
         plastiqueRamasse = new ArrayList<PlastiquePolluant>();
 
-        pps=new ArrayList<PlastiquePolluant>();
+        pps = new ArrayList<PlastiquePolluant>();
 
         pbds = new ArrayList<PlastiqueBioDegradable>();
         pbdsATraiter = new ArrayList<PlastiqueBioDegradable>();
@@ -61,22 +61,22 @@ public class Simulation {
     /**
      * Constructeur qui copie une simulation existante à un moment donné (pour des statistiques et études potentielles)
      */
-    private Simulation(Simulation sim){
-        terrain=new Terrain(sim.terrain.nbLignes,sim.terrain.nbColonnes);
-        nbPetrole= sim.nbPetrole;
-        nbTPs= sim.nbTPs;
-        nbTUs= sim.nbTUs;
+    private Simulation(Simulation sim) {
+        terrain = new Terrain(sim.terrain.nbLignes, sim.terrain.nbColonnes);
+        nbPetrole = sim.nbPetrole;
+        nbTPs = sim.nbTPs;
+        nbTUs = sim.nbTUs;
 
-        techniciens= new ArrayList<TechnicienPetrolier>(sim.techniciens);
-        totalExtraction=sim.totalExtraction;
+        techniciens = new ArrayList<TechnicienPetrolier>(sim.techniciens);
+        totalExtraction = sim.totalExtraction;
 
-        travailleurs= new ArrayList<TravailleurUsine>(sim.travailleurs);
-        plastiqueRamasse= new ArrayList<PlastiquePolluant>(sim.plastiqueRamasse);
+        travailleurs = new ArrayList<TravailleurUsine>(sim.travailleurs);
+        plastiqueRamasse = new ArrayList<PlastiquePolluant>(sim.plastiqueRamasse);
 
-        pps=new ArrayList<PlastiquePolluant>(sim.pps);
+        pps = new ArrayList<PlastiquePolluant>(sim.pps);
 
-        pbds=new ArrayList<PlastiqueBioDegradable>(sim.pbds);
-        pbdsATraiter=new ArrayList<PlastiqueBioDegradable>(sim.pbdsATraiter);
+        pbds = new ArrayList<PlastiqueBioDegradable>(sim.pbds);
+        pbdsATraiter = new ArrayList<PlastiqueBioDegradable>(sim.pbdsATraiter);
     }
 
     // Méthodes terrain
@@ -177,8 +177,8 @@ public class Simulation {
      * Vérifie si la case où se déplace l'agent est vide ou pas.
      *
      * @param agent l'agent en question
-     * @param x coordonnées x de la case
-     * @param y coordonnées y de la case
+     * @param x     coordonnées x de la case
+     * @param y     coordonnées y de la case
      * @return si la case où se déplace l'agent est vide
      */
     private boolean estDeplacementPossible(Agent agent, int x, int y) {
