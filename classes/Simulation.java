@@ -295,8 +295,6 @@ public class Simulation {
 
             afficheTerrain();
         }
-
-        System.out.println("runTravailleurs size: " + pbds.size());
     }
 
     /**
