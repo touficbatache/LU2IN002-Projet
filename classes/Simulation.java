@@ -56,6 +56,25 @@ public class Simulation {
         pbdsATraiter = new ArrayList<PlastiqueBioDegradable>();
     }
 
+    /**
+     * Constructeur qui copie une simulation existante à un moment donné (pour des statistiques et études potentielles)
+     */
+    private Simulation(Simulation sim){
+        terrain=new Terrain(sim.terrain.nbLignes,sim.terrain.nbColonnes);
+        nbPetrole= sim.nbPetrole;
+        nbTPs= sim.nbTPs;
+        nbTUs= sim.nbTUs;
+
+        techniciens= new ArrayList<TechnicienPetrolier>(sim.techniciens);
+        totalExtraction=sim.totalExtraction;
+
+        travailleurs= new ArrayList<TravailleurUsine>(sim.travailleurs);
+        plastiqueRamasse= new ArrayList<PlastiquePolluant>(sim.plastiqueRamasse);
+
+        pbds=new ArrayList<PlastiqueBioDegradable>(sim.pbds);
+        pbdsATraiter=new ArrayList<PlastiqueBioDegradable>(sim.pbdsATraiter);
+    }
+
     // Méthodes terrain
 
     /**
