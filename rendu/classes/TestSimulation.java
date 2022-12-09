@@ -22,12 +22,8 @@ public class TestSimulation {
         // Crée et affiche les Travailleurs d'usine
         simulation.createTravailleurs(true);
 
-        for (int i = 1; i < 15; i++) {
-            if (simulation.getCasesRemplies() == 0) {
-                System.out.println("L'écosystème s'est éteint au bout de " + i + " cycles");
-                break;
-            }
-
+        int i = 1;
+        while (simulation.getCasesRemplies() != 0) {
             System.out.println("|---------------------------------------------------|");
             System.out.println("|--------------------  Cycle " + i + "  --------------------|");
             System.out.println("|---------------------------------------------------|");
@@ -85,6 +81,10 @@ public class TestSimulation {
             // ou, si on est hors du main, ou dans une autre classe, on peut utiliser :
             //
             // Simulation.getInstance().saveState();
+
+            i++;
         }
+
+        System.out.println("L'écosystème s'est éteint au bout de " + i + " cycles");
     }
 }
