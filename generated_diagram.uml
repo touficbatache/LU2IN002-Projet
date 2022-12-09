@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/touficbatache/Library/Mobile Documents/com~apple~CloudDocs/SU/L2/L2S1/002 Intro prog. obj./P2/Projet LU2IN002/classes</OriginalElement>
+  <nodes>
+    <node x="182.63774121290294" y="129.27933064258065">Petrole</node>
+    <node x="166.32999999999993" y="-312.0">Ressource</node>
+    <node x="-348.55814193548383" y="443.38103225806464">PlastiqueBioDegradable</node>
+    <node x="78.99999999999994" y="454.3810322580647">PlastiquePolluant</node>
+    <node x="343.0" y="630.0">Collecteur</node>
+    <node x="117.62871360825807" y="894.0">TravailleurUsine</node>
+    <node x="379.599409032258" y="-6.0">Terrain</node>
+    <node x="429.4784438709678" y="938.9999999999999">TechnicienPetrolier</node>
+    <node x="-104.70175483870969" y="124.0">Plastique</node>
+    <node x="763.25" y="-312.0">TestSimulation</node>
+    <node x="974.25" y="-312.0">PasDeCollecteException</node>
+    <node x="361.0" y="346.09051870967744">Agent</node>
+    <node x="-10.444993548387117" y="1209.016103225806">Simulation</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Collecteur" target="Agent" relationship="GENERALIZATION">
+      <point x="0.0" y="-82.5" />
+      <point x="0.0" y="127.0" />
+    </edge>
+    <edge source="TravailleurUsine" target="Collecteur" relationship="GENERALIZATION">
+      <point x="70.75" y="-94.0" />
+      <point x="329.87871360825807" y="822.0" />
+      <point x="470.5" y="822.0" />
+      <point x="0.0" y="82.5" />
+    </edge>
+    <edge source="Plastique" target="Ressource" relationship="GENERALIZATION">
+      <point x="0.0" y="-72.0" />
+      <point x="-15.70175483870969" y="31.085276841290252" />
+      <point x="214.82999999999993" y="31.085276841290252" />
+      <point x="-48.5" y="127.0" />
+    </edge>
+    <edge source="TechnicienPetrolier" target="Collecteur" relationship="GENERALIZATION">
+      <point x="0.0" y="-49.0" />
+      <point x="572.9784438709678" y="822.0" />
+      <point x="470.5" y="822.0" />
+      <point x="0.0" y="82.5" />
+    </edge>
+    <edge source="Terrain" target="Ressource" relationship="TO_MANY">
+      <point x="0.0" y="-137.0" />
+      <point x="522.599409032258" y="-27.0" />
+      <point x="311.8299999999999" y="-27.0" />
+      <point x="48.5" y="127.0" />
+    </edge>
+    <edge source="PlastiqueBioDegradable" target="Plastique" relationship="GENERALIZATION">
+      <point x="0.0" y="-60.0" />
+      <point x="-192.05814193548383" y="386.6073290322581" />
+      <point x="-15.70175483870969" y="386.6073290322581" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="Simulation" target="PlastiquePolluant" relationship="TO_MANY">
+      <point x="0.0" y="-280.5" />
+      <point x="161.05500645161288" y="1145.508051612903" />
+      <point x="49.06037419354834" y="1145.508051612903" />
+      <point x="49.06037419354834" y="679.4793088412904" />
+      <point x="148.57924343741925" y="679.4793088412904" />
+      <point x="-52.42075656258069" y="29.22066935741924" />
+    </edge>
+    <edge source="Simulation" target="Terrain" relationship="TO_ONE">
+      <point x="168.79743225806368" y="-215.55274838709738" />
+      <point x="781.7231612903229" y="1273.9633548387087" />
+      <point x="781.7231612903229" y="304.5" />
+      <point x="522.5994090322581" y="304.5" />
+      <point x="1.1368683772161603E-13" y="137.0" />
+    </edge>
+    <edge source="PlastiquePolluant" target="Plastique" relationship="GENERALIZATION">
+      <point x="0.0" y="-49.0" />
+      <point x="200.99999999999994" y="386.6073290322581" />
+      <point x="-15.70175483870969" y="386.6073290322581" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="Simulation" target="PlastiqueBioDegradable" relationship="TO_MANY">
+      <point x="0.0" y="-280.5" />
+      <point x="161.05500645161288" y="1145.508051612903" />
+      <point x="-192.05814193548383" y="1145.508051612903" />
+      <point x="0.0" y="60.0" />
+    </edge>
+    <edge source="TravailleurUsine" target="PlastiquePolluant" relationship="TO_MANY">
+      <point x="10.937791888515505" y="-88.66041360516192" />
+      <point x="270.0665054967736" y="682.4848666219353" />
+      <point x="199.97232094967728" y="682.4848666219353" />
+      <point x="-1.0276790503226607" y="43.37238635354828" />
+    </edge>
+    <edge source="Simulation" target="TechnicienPetrolier" relationship="TO_MANY">
+      <point x="0.0" y="-280.5" />
+      <point x="161.05500645161288" y="1145.508051612903" />
+      <point x="572.9784438709678" y="1145.508051612903" />
+      <point x="0.0" y="49.0" />
+    </edge>
+    <edge source="Simulation" target="TravailleurUsine" relationship="TO_MANY">
+      <point x="0.0" y="-280.5" />
+      <point x="161.05500645161288" y="1145.508051612903" />
+      <point x="259.12871360825807" y="1145.508051612903" />
+      <point x="0.0" y="94.0" />
+    </edge>
+    <edge source="Petrole" target="Ressource" relationship="GENERALIZATION">
+      <point x="0.0" y="-26.5" />
+      <point x="243.13774121290294" y="36.98445437935479" />
+      <point x="243.13774121290294" y="-70.20696609032268" />
+      <point x="-19.44743157677442" y="114.79303390967732" />
+    </edge>
+    <edge source="Agent" target="Terrain" relationship="TO_ONE">
+      <point x="-22.081367741936447" y="-127.59122580645192" />
+      <point x="448.41863225806355" y="304.5" />
+      <point x="522.5994090322581" y="304.5" />
+      <point x="1.1368683772161603E-13" y="137.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.5499262034514084" showDependencies="true" x="496.3767638709669" y="778.2499999999983" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

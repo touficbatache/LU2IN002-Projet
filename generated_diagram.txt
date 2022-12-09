@@ -1,0 +1,133 @@
+@startuml
+skinparam linetype ortho
+
+class Agent {
+  + Agent(String, Terrain): 
+  - terrain: Terrain
+  - posX: int
+  - posY: int
+  + toString(): String
+  + seDeplacer(int, int): boolean
+  + distance(int, int): double
+   posY: int
+   posX: int
+   terrain: Terrain
+}
+class Collecteur {
+  + Collecteur(String, Terrain, int, int): 
+  + videCollecte(): int
+  + collecter(): int
+  + estPlein(): boolean
+  + verifierCollectePossible(): boolean
+   quantiteCollectee: int
+}
+class PasDeCollecteException {
+  + PasDeCollecteException(String, String): 
+}
+class Petrole {
+  + Petrole(int): 
+}
+class Plastique {
+  + Plastique(String, int): 
+  - age: int
+  + augmenteAge(): void
+  + toString(): String
+   age: int
+}
+class PlastiqueBioDegradable {
+  + PlastiqueBioDegradable(int, int): 
+  + PlastiqueBioDegradable(PlastiquePolluant): 
+  + toString(): String
+  + estDecompositionPossible(): boolean
+}
+class PlastiquePolluant {
+  + PlastiquePolluant(int, int): 
+  + toString(): String
+  + estRecyclagePossible(): boolean
+}
+class Ressource {
+  + Ressource(String, int): 
+  - x: int
+  - y: int
+  - quantite: int
+  + setPosition(int, int): void
+  + toString(): String
+  + initialisePosition(): void
+   x: int
+   quantite: int
+   y: int
+}
+class Simulation {
+  - Simulation(): 
+  + decomposerTout(): int
+  + createTravailleurs(boolean): void
+  + recyclerTout(): int
+  + produirePlastique(): void
+  + rejettePlastiquesBio(boolean): void
+  + toString(): String
+  + randEntre(int, int): int
+  + videExtractionPetrole(): int
+  + removeTravailleurs(): void
+  - estDeplacementPossible(Agent, int, int): boolean
+  + afficheTerrain(int): void
+  + createTechniciens(boolean): void
+  + afficheTechniciens(): void
+  + runTravailleurs(): void
+  + afficheTerrain(): void
+  + createPetrole(): void
+  + removeTechniciens(): void
+  + augmenteAge(): void
+  + polluer(boolean): void
+  + videRamassagePlastique(): int
+  + runTechniciens(): void
+   instance: Simulation
+   casesRemplies: int
+}
+class TechnicienPetrolier {
+  + TechnicienPetrolier(int, int, int, Terrain): 
+  + toString(): String
+  + verifierCollectePossible(): boolean
+}
+class Terrain {
+  + Terrain(int, int): 
+  + Terrain(): 
+  + videCase(int, int): Ressource?
+  + sontValides(int, int): boolean
+  - premiersCar(String, int): String
+  + setCase(int, int, Ressource): boolean
+  + caseEstVide(int, int): boolean
+  + toString(): String
+  + lesRessources(): ArrayList<Ressource>
+  + getCase(int, int): Ressource?
+  + affiche(int): void
+}
+class TestSimulation {
+  + TestSimulation(): 
+  + main(String[]): void
+}
+class TravailleurUsine {
+  + TravailleurUsine(int, int, Terrain): 
+  - collectes: ArrayList<PlastiquePolluant>
+  + collecter(): int
+  + verifierCollectePossible(): boolean
+  + videCollecte(): int
+  + toString(): String
+   collectes: ArrayList<PlastiquePolluant>
+}
+
+Agent                  *-[plain]-   Terrain                
+Collecteur              -[plain]-^  Agent                  
+Petrole                 -[plain]-^  Ressource              
+Plastique               -[plain]-^  Ressource              
+PlastiqueBioDegradable  -[plain]-^  Plastique              
+PlastiquePolluant       -[plain]-^  Plastique              
+Simulation             *-[plain]-   PlastiqueBioDegradable 
+Simulation             *-[plain]-   PlastiquePolluant      
+Simulation             *-[plain]-   TechnicienPetrolier    
+Simulation             *-[plain]-   Terrain                
+Simulation             *-[plain]-   TravailleurUsine       
+TechnicienPetrolier     -[plain]-^  Collecteur             
+Terrain                *-[plain]-   Ressource              
+TravailleurUsine        -[plain]-^  Collecteur             
+TravailleurUsine       *-[plain]-   PlastiquePolluant
+@enduml
